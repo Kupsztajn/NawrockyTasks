@@ -1,24 +1,65 @@
 <?php
 
 require_once 'AppController.php';
+require_once 'src/repository/TaskRepository.php';
 
-class DashboardCntroller extends AppController {
+class DashboardController extends AppController {
 
-    public function login()
+    public function dashboard()
     {
-        // TODO pobieramy z formularza email, haslo
-        // todo sprawdzamy czy taki user istnieje w db
-        // jezeli nie istnieje to zwracamy odpowiednie komunikaty
-        //jezeli istnieje to logujemy usera (tworzymy sesje)
-        return $this->render('login');
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $taskRepository = new TaskRepository();
+        $tasks = $taskRepository->getTasksByUserId($_SESSION['user_id']);
+
+        return $this->render('dashboard', ['tasks' => $tasks]);
     }
 
-    public function logout()
+    public function addTask()
     {
-        // Logic for logging out the user
         session_start();
-        session_destroy();
-        header('Location: /login');
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = $_POST['title'] ?? '';
+            $description = $_POST['description'] ?? '';
+
+            if (!empty($title)) {
+                $task = new Task(null, $_SESSION['user_id'], $title, $description);
+                $taskRepository = new TaskRepository();
+                $taskRepository->save($task);
+            }
+        }
+
+        header('Location: /dashboard');
+        exit();
+    }
+
+    public function deleteTask()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? '';
+
+            if (!empty($id)) {
+                $taskRepository = new TaskRepository();
+                $taskRepository->delete($id);
+            }
+        }
+
+        header('Location: /dashboard');
         exit();
     }
 

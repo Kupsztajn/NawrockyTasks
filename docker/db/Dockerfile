@@ -1,7 +1,7 @@
 FROM postgres
 
-ENV POSTGRES_PASSWORD docker
-ENV POSTGRES_DB db
-ENV POSTGRES_USER docker
+ENV POSTGRES_PASSWORD nawrocky
+ENV POSTGRES_DB nawrockytasks
+ENV POSTGRES_USER nawrocky
 
-COPY . /app/database
+COPY schema.sql /docker-entrypoint-initdb.d/

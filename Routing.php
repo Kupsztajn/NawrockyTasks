@@ -6,32 +6,26 @@ class Routing {
     public static $routes = [
         'login' => 'SecurityController@login',
         'logout' => 'SecurityController@logout',
-        'dashboard' => 'DashboardController@dashboard'
+        'dashboard' => 'DashboardController@dashboard',
+        'add-task' => 'DashboardController@addTask',
+        'delete-task' => 'DashboardController@deleteTask'
     ];
 
     public static function run($path) {
-        switch ($path) {
-            case 'dashboard':
-                
-                break;
+        if (array_key_exists($path, self::$routes)) {
+            // Pobierz wpis z tablicy routes
+            $route = self::$routes[$path];
 
-            case 'login':
-                // Pobierz wpis z tablicy routes
-                $route = self::$routes[$path]; // "SecurityController@login"
+            // Rozdziel na nazwę kontrolera i metodę
+            list($controllerName, $action) = explode('@', $route);
 
-                // Rozdziel na nazwę kontrolera i metodę
-                list($controllerName, $action) = explode('@', $route);
+            // Utwórz obiekt kontrolera
+            $controller = new $controllerName();
 
-                // Utwórz obiekt kontrolera
-                $controller = new $controllerName();
-
-                // Wywołaj metodę kontrolera
-                $controller->$action();
-                break;
-
-            default:
-                include 'public/views/404.html';
-                break;
+            // Wywołaj metodę kontrolera
+            $controller->$action();
+        } else {
+            include 'public/views/404.html';
         }
     }
 }

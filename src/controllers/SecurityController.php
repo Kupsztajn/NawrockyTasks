@@ -1,15 +1,29 @@
 <?php
 
 require_once 'AppController.php';
+require_once 'src/repository/UserRepository.php';
 
 class SecurityController extends AppController {
 
     public function login()
     {
-        // TODO pobieramy z formularza email, haslo
-        // todo sprawdzamy czy taki user istnieje w db
-        // jezeli nie istnieje to zwracamy odpowiednie komunikaty
-        //jezeli istnieje to logujemy usera (tworzymy sesje)
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            $userRepository = new UserRepository();
+            $user = $userRepository->findByEmail($email);
+
+            if ($user && $user->verifyPassword($password)) {
+                session_start();
+                $_SESSION['user_id'] = $user->getId();
+                $_SESSION['user_email'] = $user->getEmail();
+                header('Location: /dashboard');
+                exit();
+            } else {
+                return $this->render('login', ['error' => 'Invalid email or password']);
+            }
+        }
         return $this->render('login');
     }
 

@@ -8,6 +8,33 @@
     <title>DASHBOARD</title>
 </head>
 <body>
-    <h1>DASHBOARD2</h1>
+    <h1>Dashboard</h1>
+    <a href="/logout">Logout</a>
+
+    <h2>Add New Task</h2>
+    <form action="/add-task" method="POST">
+        <input type="text" name="title" placeholder="Task Title" required>
+        <textarea name="description" placeholder="Task Description"></textarea>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h2>Your Tasks</h2>
+    <ul>
+        <?php if (isset($tasks) && count($tasks) > 0): ?>
+            <?php foreach ($tasks as $task): ?>
+                <li>
+                    <strong><?php echo htmlspecialchars($task->getTitle()); ?></strong>
+                    <p><?php echo htmlspecialchars($task->getDescription()); ?></p>
+                    <small>Status: <?php echo htmlspecialchars($task->getStatus()); ?> | Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
+                    <form action="/delete-task" method="POST" style="display: inline;">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
+                        <button type="submit">Usuń</button>
+                    </form>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <li>No tasks yet.</li>
+        <?php endif; ?>
+    </ul>
 </body>
 </html>
