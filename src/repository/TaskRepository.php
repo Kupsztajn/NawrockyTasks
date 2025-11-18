@@ -10,20 +10,20 @@ class TaskRepository {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function getTasksByUserId($userId) {
-        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE user_id = :user_id ORDER BY created_at DESC");
-        $stmt->execute(['user_id' => $userId]);
+    public function getTasksByProjectId($projectId) {
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE project_id = :project_id ORDER BY created_at DESC");
+        $stmt->execute(['project_id' => $projectId]);
         $tasks = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $tasks[] = new Task($row['id'], $row['user_id'], $row['title'], $row['description'], $row['status'], $row['created_at']);
+            $tasks[] = new Task($row['id'], $row['project_id'], $row['title'], $row['description'], $row['status'], $row['created_at']);
         }
         return $tasks;
     }
 
     public function save(Task $task) {
-        $stmt = $this->pdo->prepare("INSERT INTO tasks (user_id, title, description, status, created_at) VALUES (:user_id, :title, :description, :status, :created_at)");
+        $stmt = $this->pdo->prepare("INSERT INTO tasks (project_id, title, description, status, created_at) VALUES (:project_id, :title, :description, :status, :created_at)");
         $stmt->execute([
-            'user_id' => $task->getUserId(),
+            'project_id' => $task->getProjectId(),
             'title' => $task->getTitle(),
             'description' => $task->getDescription(),
             'status' => $task->getStatus(),

@@ -2,15 +2,15 @@
 
 class Task {
     private $id;
-    private $user_id;
+    private $project_id;
     private $title;
     private $description;
     private $status;
     private $created_at;
 
-    public function __construct($id = null, $user_id = null, $title = null, $description = null, $status = 'pending', $created_at = null) {
+    public function __construct($id = null, $project_id = null, $title = null, $description = null, $status = 'pending', $created_at = null) {
         $this->id = $id;
-        $this->user_id = $user_id;
+        $this->project_id = $project_id;
         $this->title = $title;
         $this->description = $description;
         $this->status = $status;
@@ -25,12 +25,12 @@ class Task {
         $this->id = $id;
     }
 
-    public function getUserId() {
-        return $this->user_id;
+    public function getProjectId() {
+        return $this->project_id;
     }
 
-    public function setUserId($user_id) {
-        $this->user_id = $user_id;
+    public function setProjectId($project_id) {
+        $this->project_id = $project_id;
     }
 
     public function getTitle() {
