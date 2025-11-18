@@ -4,58 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="public/styles/dashboard.css">
     <script src="public/scripts/main.js" defer></script>
     <title>DASHBOARD</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <a href="/logout">Logout</a>
+    <h1>📊 Dashboard</h1>
+    <a href="/logout">🚪 Logout</a>
 
-    <h2>Add New Project</h2>
+    <h2>➕ Add New Project</h2>
     <form action="/add-project" method="POST">
         <input type="text" name="name" placeholder="Project Name" required>
         <textarea name="description" placeholder="Project Description"></textarea>
-        <button type="submit">Add Project</button>
+        <button type="submit">✨ Create Project</button>
     </form>
 
-    <h2>Your Projects</h2>
+    <h2>📁 Your Projects</h2>
     <?php if (isset($projectsWithTasks) && count($projectsWithTasks) > 0): ?>
         <?php foreach ($projectsWithTasks as $projectWithTasks): ?>
-            <div style="border: 1px solid #ccc; margin: 10px 0; padding: 10px;">
+            <div class="project-card">
                 <h3><?php echo htmlspecialchars($projectWithTasks['project']->getName()); ?></h3>
                 <p><?php echo htmlspecialchars($projectWithTasks['project']->getDescription()); ?></p>
-                <small>Created: <?php echo htmlspecialchars($projectWithTasks['project']->getCreatedAt()); ?></small>
+                <small>📅 Created: <?php echo htmlspecialchars($projectWithTasks['project']->getCreatedAt()); ?></small>
 
-                <h4>Add Task to this Project</h4>
+                <h4>➕ Add Task to this Project</h4>
                 <form action="/add-task" method="POST">
                     <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">
                     <input type="text" name="title" placeholder="Task Title" required>
                     <textarea name="description" placeholder="Task Description"></textarea>
-                    <button type="submit">Add Task</button>
+                    <button type="submit">📝 Add Task</button>
                 </form>
 
-                <h4>Tasks</h4>
-                <ul>
+                <div class="task-list">
+                    <h4>📋 Tasks</h4>
                     <?php if (count($projectWithTasks['tasks']) > 0): ?>
                         <?php foreach ($projectWithTasks['tasks'] as $task): ?>
-                            <li>
+                            <div class="task-item">
                                 <strong><?php echo htmlspecialchars($task->getTitle()); ?></strong>
                                 <p><?php echo htmlspecialchars($task->getDescription()); ?></p>
-                                <small>Status: <?php echo htmlspecialchars($task->getStatus()); ?> | Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
-                                <form action="/delete-task" method="POST" style="display: inline;">
+                                <small>📊 Status: <?php echo htmlspecialchars($task->getStatus()); ?> | 📅 Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
+                                <form action="/delete-task" method="POST">
                                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
-                                    <button type="submit">Usuń</button>
+                                    <button type="submit">🗑️ Delete</button>
                                 </form>
-                            </li>
+                            </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <li>No tasks in this project yet.</li>
+                        <div class="task-item">
+                            <em>📝 No tasks in this project yet.</em>
+                        </div>
                     <?php endif; ?>
-                </ul>
+                </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>
-        <p>No projects yet.</p>
+        <div class="project-card">
+            <p>📂 No projects yet. Create your first project above!</p>
+        </div>
     <?php endif; ?>
 </body>
 </html>
