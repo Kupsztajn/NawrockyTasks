@@ -11,11 +11,21 @@ class UserRepository {
     }
 
     public function findByEmail($email) {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt = $this->pdo->prepare("SELECT id, email, password, created_at FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['id'], $row['email'], $row['password']);
+            return new User($row['id'], $row['email'], $row['password'], $row['created_at']);
+        }
+        return null;
+    }
+
+    public function findById($id) {
+        $stmt = $this->pdo->prepare("SELECT id, email, password, created_at FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new User($row['id'], $row['email'], $row['password'], $row['created_at']);
         }
         return null;
     }

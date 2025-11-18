@@ -36,4 +36,16 @@ class SecurityController extends AppController {
         exit();
     }
 
+    public function account()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+        $userRepository = new UserRepository();
+        $user = $userRepository->findById($_SESSION['user_id']);
+        return $this->render('account', ['user' => $user]);
+    }
+
 }
