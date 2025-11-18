@@ -13,7 +13,11 @@ class Routing {
         'project' => 'DashboardController@project',
         'add-project' => 'DashboardController@addProject',
         'add-task' => 'DashboardController@addTask',
-        'delete-task' => 'DashboardController@deleteTask'
+        'delete-task' => 'DashboardController@deleteTask',
+        'search-users' => 'DashboardController@searchUsers',
+        'invite-user' => 'DashboardController@inviteUser',
+        'accept-invitation' => 'DashboardController@acceptInvitation',
+        'decline-invitation' => 'DashboardController@declineInvitation'
     ];
 
     public static function run($path) {

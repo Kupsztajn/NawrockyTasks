@@ -1,8 +1,45 @@
-const header = document.querySelector('h1');
+const header = document.querySelector('h2');
 console.log(header);
 header.addEventListener('click', () => {
     header.style.color = 'green';
 });
+
+// Funkcja inviteUser globalnie w main.js
+function inviteUser(projectId, userId, button) {
+    button.disabled = true;
+    button.textContent = 'Inviting...';
+
+    const formData = new FormData();
+    formData.append('project_id', projectId);
+    formData.append('invitee_id', userId);
+
+    fetch('/invite-user', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text) });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            button.textContent = 'Invited!';
+            button.style.background = '#6c757d';
+        } else {
+            button.textContent = 'Error';
+            button.disabled = false;
+            alert(data.error || 'Failed to send invitation');
+        }
+    })
+    .catch(error => {
+        console.error('Error inviting user:', error);
+        button.textContent = 'Error';
+        button.disabled = false;
+        alert('Failed to send invitation');
+    });
+}
 
 // Animacje dla kart projektów
 document.addEventListener('DOMContentLoaded', () => {
@@ -41,4 +78,69 @@ document.addEventListener('DOMContentLoaded', () => {
             button.style.transform = 'scale(1)';
         });
     });
+
+    // Searchbars — many per project
+    document.querySelectorAll('.user-search').forEach(input => {
+        let timeout;
+        input.addEventListener('input', function() {
+            const panel = this.parentElement;
+            const results = panel.querySelector('.user-results');
+
+            clearTimeout(timeout);
+            const query = this.value.trim();
+
+            if (query.length < 2) {
+                results.innerHTML = '';
+                return;
+            }
+
+            timeout = setTimeout(() => {
+                fetch(`/search-users?q=${encodeURIComponent(query)}`)
+                    .then(res => res.json())
+                    .then(users => {
+                        results.innerHTML = '';
+                        if (users.length === 0) {
+                            results.innerHTML = '<p>No users found.</p>';
+                            return;
+                        }
+
+                        users.forEach(user => {
+                            const row = document.createElement('div');
+                            row.classList.add('user-result');
+                            row.innerHTML = `
+                                <span>${user.email}</span>
+                                <button class="invite-btn" data-project-id="${input.dataset.projectId}" data-user-id="${user.id}">
+                                    Invite
+                                </button>
+                            `;
+                            results.appendChild(row);
+                        });
+                        
+                        
+                        // Attach event listeners to new buttons
+                        results.querySelectorAll('.invite-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                inviteUser(
+                                    this.dataset.projectId,
+                                    this.dataset.userId,
+                                    this
+                                );
+                            });
+                        });
+                    });
+            }, 300);
+        });
+    });
+
+    // Toggle invite panels
+    document.querySelectorAll('.open-invite').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.projectId;
+            const panel = document.getElementById(`invite-panel-${id}`);
+             if (!panel) return; // <- ważne!
+
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+
 });

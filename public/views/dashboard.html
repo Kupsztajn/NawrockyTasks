@@ -19,6 +19,23 @@
         <button type="submit">✨ Create Project</button>
     </form>
 
+    <?php if (isset($pendingInvitations) && count($pendingInvitations) > 0): ?>
+    <h2>📨 Pending Invitations</h2>
+    <?php foreach ($pendingInvitations as $invitation): ?>
+        <div class="project-card">
+            <p>You have been invited to join a project.</p>
+            <form action="/accept-invitation" method="POST" style="display: inline;">
+                <input type="hidden" name="invitation_id" value="<?php echo htmlspecialchars($invitation->getId()); ?>">
+                <button type="submit">✅ Accept</button>
+            </form>
+            <form action="/decline-invitation" method="POST" style="display: inline;">
+                <input type="hidden" name="invitation_id" value="<?php echo htmlspecialchars($invitation->getId()); ?>">
+                <button type="submit">❌ Decline</button>
+            </form>
+        </div>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
     <h2>📁 Your Projects</h2>
     <?php if (isset($projectsWithTasks) && count($projectsWithTasks) > 0): ?>
         <?php foreach ($projectsWithTasks as $projectWithTasks): ?>
@@ -27,6 +44,15 @@
                 <p><?php echo htmlspecialchars($projectWithTasks['project']->getDescription()); ?></p>
                 <small>📅 Created: <?php echo htmlspecialchars($projectWithTasks['project']->getCreatedAt()); ?></small>
                 <a href="/project?id=<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">👁️ View Tasks</a>
+                <!-- Invite users -->
+                <button class="open-invite" data-project-id="<?php echo $projectWithTasks['project']->getId(); ?>">
+                    ➕ Invite Users
+                </button>
+
+                <div class="invite-panel" id="invite-panel-<?php echo $projectWithTasks['project']->getId(); ?>" style="display:none;">
+                    <input type="text" placeholder="Search users..." class="user-search" data-project-id="<?php echo $projectWithTasks['project']->getId(); ?>">
+                    <div class="user-results"></div>
+                </div>
             </div>
         <?php endforeach; ?>
     <?php else: ?>

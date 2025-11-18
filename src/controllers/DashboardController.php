@@ -3,6 +3,8 @@
 require_once 'AppController.php';
 require_once 'src/repository/ProjectRepository.php';
 require_once 'src/repository/TaskRepository.php';
+require_once 'src/repository/ProjectInvitationRepository.php';
+require_once 'src/repository/UserRepository.php';
 
 class DashboardController extends AppController {
 
@@ -27,7 +29,14 @@ class DashboardController extends AppController {
             ];
         }
 
-        return $this->render('dashboard', ['projectsWithTasks' => $projectsWithTasks]);
+        // Get pending invitations
+        $invitationRepository = new ProjectInvitationRepository();
+        $pendingInvitations = $invitationRepository->findByInviteeId($_SESSION['user_id']);
+        $pendingInvitations = array_filter($pendingInvitations, function($invitation) {
+            return $invitation->getStatus() === 'pending';
+        });
+
+        return $this->render('dashboard', ['projectsWithTasks' => $projectsWithTasks, 'pendingInvitations' => $pendingInvitations]);
     }
 
     public function addProject()
@@ -132,4 +141,130 @@ class DashboardController extends AppController {
         return $this->render('project', ['project' => $project, 'tasks' => $tasks]);
     }
 
+    public function searchUsers()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
+            exit();
+        }
+
+        $query = $_GET['q'] ?? '';
+        if (empty($query)) {
+            echo json_encode([]);
+            exit();
+        }
+
+        $userRepository = new UserRepository();
+        $usersFromDb = $userRepository->searchUsers($query);
+        $users = [];
+        foreach ($usersFromDb as $user) {
+            $users[] = [
+            'id' => $user->getId(),
+            'email' => $user->getEmail()
+            ];
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($users);
+        exit();
+    }
+
+    public function inviteUser()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Unauthorized']);
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method not allowed']);
+            exit();
+        }
+
+        $projectId = $_POST['project_id'] ?? '';
+        $inviteeId = $_POST['invitee_id'] ?? '';
+
+        if (empty($projectId) || empty($inviteeId)) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Missing parameters']);
+            exit();
+        }
+
+        $projectRepository = new ProjectRepository();
+        $project = $projectRepository->getProjectById($projectId);
+
+        if (!$project || $project->getUserId() != $_SESSION['user_id']) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Forbidden']);
+            exit();
+        }
+
+        $invitationRepository = new ProjectInvitationRepository();
+        $existingInvitation = $invitationRepository->findByProjectAndInvitee($projectId, $inviteeId);
+
+        if ($existingInvitation) {
+            http_response_code(409);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invitation already sent']);
+            exit();
+        }
+
+        $invitation = new ProjectInvitation(null, $projectId, $_SESSION['user_id'], $inviteeId, 'pending', null);
+        $invitationRepository->save($invitation);
+
+        // tutaj ustaw nagłówek przed jakimkolwiek echo
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true]);
+        exit();
+    }
+    
+    public function acceptInvitation() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['invitation_id'] ?? '';
+            if (!empty($id)) {
+                $invitationRepository = new ProjectInvitationRepository();
+                $invitationRepository->updateStatus($id, 'accepted');
+            }
+        }
+
+        header('Location: /dashboard');
+        exit();
+    }
+
+    public function declineInvitation() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['invitation_id'] ?? '';
+            if (!empty($id)) {
+                $invitationRepository = new ProjectInvitationRepository();
+                $invitationRepository->updateStatus($id, 'declined');
+            }
+        }
+
+        header('Location: /dashboard');
+        exit();
+    }
+
 }
+
+

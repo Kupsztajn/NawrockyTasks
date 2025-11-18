@@ -48,4 +48,14 @@ class UserRepository {
             'id' => $userId
         ]);
     }
+
+    public function searchUsers($query) {
+        $stmt = $this->pdo->prepare("SELECT id, email FROM users WHERE email ILIKE :query LIMIT 10");
+        $stmt->execute(['query' => '%' . $query . '%']);
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = new User($row['id'], $row['email'], null, null);
+        }
+        return $users;
+    }
 }
