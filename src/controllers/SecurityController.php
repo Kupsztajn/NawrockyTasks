@@ -27,6 +27,42 @@ class SecurityController extends AppController {
         return $this->render('login');
     }
 
+    public function register()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+
+            $userRepository = new UserRepository();
+
+            // Check if email already exists
+            if ($userRepository->findByEmail($email)) {
+                return $this->render('register', ['error' => 'Email already registered']);
+            }
+
+            // Validate password
+            if (strlen($password) < 6) {
+                return $this->render('register', ['error' => 'Password must be at least 6 characters long']);
+            }
+
+            if ($password !== $confirmPassword) {
+                return $this->render('register', ['error' => 'Passwords do not match']);
+            }
+
+            // Create new user
+            $user = new User();
+            $user->setEmail($email);
+            $user->setPassword($password);
+            $userRepository->save($user);
+
+            // Redirect to login
+            header('Location: /login');
+            exit();
+        }
+        return $this->render('register');
+    }
+
     public function logout()
     {
         // Logic for logging out the user

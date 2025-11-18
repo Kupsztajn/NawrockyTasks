@@ -5,6 +5,7 @@ class Routing {
 
     public static $routes = [
         'login' => 'SecurityController@login',
+        'register' => 'SecurityController@register',
         'logout' => 'SecurityController@logout',
         'account' => 'SecurityController@account',
         'change-password' => 'SecurityController@changePassword',
