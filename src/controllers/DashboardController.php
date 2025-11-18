@@ -17,9 +17,10 @@ class DashboardController extends AppController {
         }
 
         $projectRepository = new ProjectRepository();
-        $projects = $projectRepository->getProjectsByUserId($_SESSION['user_id']);
-
         $taskRepository = new TaskRepository();
+
+        // Twoje projekty własne
+        $projects = $projectRepository->getProjectsByUserId($_SESSION['user_id']);
         $projectsWithTasks = [];
         foreach ($projects as $project) {
             $tasks = $taskRepository->getTasksByProjectId($project->getId());
@@ -29,14 +30,32 @@ class DashboardController extends AppController {
             ];
         }
 
-        // Get pending invitations
+        // Wszystkie zaproszenia dla użytkownika
         $invitationRepository = new ProjectInvitationRepository();
-        $pendingInvitations = $invitationRepository->findByInviteeId($_SESSION['user_id']);
-        $pendingInvitations = array_filter($pendingInvitations, function($invitation) {
-            return $invitation->getStatus() === 'pending';
-        });
+        $allInvitations = $invitationRepository->findByInviteeId($_SESSION['user_id']);
 
-        return $this->render('dashboard', ['projectsWithTasks' => $projectsWithTasks, 'pendingInvitations' => $pendingInvitations]);
+        // Zaproszenia pending
+        $pendingInvitations = array_filter($allInvitations, fn($inv) => $inv->getStatus() === 'pending');
+
+        // Projekty, do których zostało zaakceptowane zaproszenie
+        $invitedProjects = [];
+        foreach ($allInvitations as $invitation) {
+            if ($invitation->getStatus() === 'accepted') {
+                $project = $projectRepository->getProjectById($invitation->getProjectId());
+                if ($project) {
+                    $invitedProjects[] = [
+                        'project' => $project,
+                        'status' => $invitation->getStatus()
+                    ];
+                }
+            }
+        }
+
+        return $this->render('dashboard', [
+            'projectsWithTasks' => $projectsWithTasks,
+            'pendingInvitations' => $pendingInvitations,
+            'invitedProjects' => $invitedProjects
+        ]);
     }
 
     public function addProject()
@@ -130,7 +149,11 @@ class DashboardController extends AppController {
         $projectRepository = new ProjectRepository();
         $project = $projectRepository->getProjectById($projectId);
 
-        if (!$project || $project->getUserId() != $_SESSION['user_id']) {
+        // Sprawdzenie uprawnień
+        $invitationRepository = new ProjectInvitationRepository();
+        $acceptedInvitation = $invitationRepository->findByProjectAndInvitee($projectId, $_SESSION['user_id']);
+
+        if (!$project || ($project->getUserId() != $_SESSION['user_id'] && !$acceptedInvitation)) {
             header('Location: /dashboard');
             exit();
         }

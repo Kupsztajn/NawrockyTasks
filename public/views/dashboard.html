@@ -57,9 +57,25 @@
         <?php endforeach; ?>
     <?php else: ?>
         <div class="project-card">
-            <p>📂 No projects yet. Create your first project above!</p>
+            <p>📂 No own projects yet. Create your first project above!</p>
         </div>
     <?php endif; ?>
+
+<h2>📨 Invited to Projects</h2>
+<?php if (isset($invitedProjects) && count($invitedProjects) > 0): ?>
+    <?php foreach ($invitedProjects as $invited): ?>
+        <div class="project-card invited-project">
+            <h3><?php echo htmlspecialchars($invited['project']->getName()); ?></h3>
+            <p><?php echo htmlspecialchars($invited['project']->getDescription()); ?></p>
+            <small>Status: <?php echo htmlspecialchars($invited['status']); ?></small>
+            <a href="/project?id=<?php echo htmlspecialchars($invited['project']->getId()); ?>">👁️ View Tasks</a>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <div class="project-card">
+        <p>📂 No invited projects yet.</p>
+    </div>
+<?php endif; ?>
     </div>
 </body>
 </html>
