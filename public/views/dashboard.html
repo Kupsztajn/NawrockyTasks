@@ -12,6 +12,7 @@
     <h1>📊 Dashboard</h1>
     <a href="/logout">🚪 Logout</a>
 
+    <div class="dashboard-container">
     <h2>➕ Add New Project</h2>
     <form action="/add-project" method="POST">
         <input type="text" name="name" placeholder="Project Name" required>
@@ -62,5 +63,6 @@
             <p>📂 No projects yet. Create your first project above!</p>
         </div>
     <?php endif; ?>
+    </div>
 </body>
 </html>

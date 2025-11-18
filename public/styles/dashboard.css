@@ -1,28 +1,54 @@
+/* 🌈 Ogólny wygląd */
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+}
+
+/* 🔗 Linki */
+a {
+  text-decoration: none;
+  color: #667eea;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #5a67d8;
+}
+
 /* 📁 Projekty */
 .project-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
 }
 
 .project-card h3 {
   color: #333;
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 .project-card p {
-  color: #666;
+  color: #555;
   margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
 .project-card small {
@@ -41,34 +67,37 @@
   font-size: 1.2rem;
 }
 
+/* 📝 Pojedyncza karta zadania */
 .task-item {
   background: #f8f9fa;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-left: 4px solid #667eea;
+  border-left: 5px solid #667eea;
   transition: all 0.3s ease;
 }
 
 .task-item:hover {
-  background: #e9ecef;
-  transform: translateX(5px);
+  background: #e2e8f0;
+  transform: translateX(6px);
 }
 
 .task-item strong {
-  color: #333;
+  color: #222;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
 }
 
 .task-item p {
-  color: #666;
+  color: #555;
   margin-bottom: 0.5rem;
+  font-size: 0.95rem;
 }
 
 .task-item small {
   color: #999;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* 🗑️ Przycisk usunięcia zadania */
@@ -78,20 +107,61 @@
 }
 
 .task-item button {
-  background: #dc3545;
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
   width: auto;
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 0.9rem;
-  border-radius: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .task-item button:hover {
-  background: #c82333;
-  transform: none;
+  background: #e63946;
+  transform: scale(1.05);
 }
 
-/* 📱 Responsywność dla dashboard */
+/* ➕ Formularze dodawania */
+form input, form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+form button[type="submit"] {
+  background: #667eea;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background: #5a67d8;
+  transform: scale(1.05);
+}
+
+/* 📱 Responsywność */
 @media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
   .project-card, form {
     padding: 1.5rem;
   }
@@ -99,4 +169,25 @@
   .task-item {
     padding: 0.8rem;
   }
+}
+
+/* 📌 Centrum treści */
+.dashboard-container {
+  max-width: 900px;      /* szerokość kontenera */
+  margin: 0 auto;        /* centrowanie */
+  margin-top: 2rem;
+  padding: 0 1rem;       /* lekkie boczne odstępy na mobile */
+}
+
+/* Żeby nagłówek też był ładnie wyśrodkowany */
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+a[href="/logout"] {
+  display: block;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
 }
