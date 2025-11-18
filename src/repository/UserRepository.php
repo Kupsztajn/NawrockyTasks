@@ -39,4 +39,13 @@ class UserRepository {
         $user->setId($this->pdo->lastInsertId());
         return $user;
     }
+
+    public function updatePassword($userId, $newPassword) {
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $this->pdo->prepare("UPDATE users SET password = :password WHERE id = :id");
+        $stmt->execute([
+            'password' => $hashedPassword,
+            'id' => $userId
+        ]);
+    }
 }

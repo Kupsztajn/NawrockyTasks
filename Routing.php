@@ -7,6 +7,7 @@ class Routing {
         'login' => 'SecurityController@login',
         'logout' => 'SecurityController@logout',
         'account' => 'SecurityController@account',
+        'change-password' => 'SecurityController@changePassword',
         'dashboard' => 'DashboardController@dashboard',
         'project' => 'DashboardController@project',
         'add-project' => 'DashboardController@addProject',

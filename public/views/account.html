@@ -22,7 +22,21 @@
         </div>
         <div class="project-card">
             <h3>Account Management</h3>
-            <p>🔒 Change Password: [Placeholder - Form to be added]</p>
+            <form action="/change-password" method="POST">
+                <label for="current_password">Current Password:</label>
+                <input type="password" id="current_password" name="current_password" required><br><br>
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password" required><br><br>
+                <label for="confirm_password">Confirm New Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+                <button type="submit">Change Password</button>
+            </form>
+            <?php if (isset($error)): ?>
+                <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+            <?php endif; ?>
+            <?php if (isset($success)): ?>
+                <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
+            <?php endif; ?>
             <p>🗑️ Delete Account: [Placeholder - Button to be added]</p>
         </div>
     <?php else: ?>
