@@ -73,7 +73,8 @@ class DashboardController extends AppController {
             }
         }
 
-        header('Location: /dashboard');
+        // Redirect back to the project page instead of dashboard
+        header('Location: /project?id=' . $project_id);
         exit();
     }
 
@@ -90,12 +91,45 @@ class DashboardController extends AppController {
 
             if (!empty($id)) {
                 $taskRepository = new TaskRepository();
+                $task = $taskRepository->getTaskById($id); // Get task to find project_id
                 $taskRepository->delete($id);
+                if ($task) {
+                    header('Location: /project?id=' . $task->getProjectId());
+                    exit();
+                }
             }
         }
 
         header('Location: /dashboard');
         exit();
+    }
+
+    public function project()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $projectId = $_GET['id'] ?? '';
+        if (empty($projectId)) {
+            header('Location: /dashboard');
+            exit();
+        }
+
+        $projectRepository = new ProjectRepository();
+        $project = $projectRepository->getProjectById($projectId);
+
+        if (!$project || $project->getUserId() != $_SESSION['user_id']) {
+            header('Location: /dashboard');
+            exit();
+        }
+
+        $taskRepository = new TaskRepository();
+        $tasks = $taskRepository->getTasksByProjectId($projectId);
+
+        return $this->render('project', ['project' => $project, 'tasks' => $tasks]);
     }
 
 }

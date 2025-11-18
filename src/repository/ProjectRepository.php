@@ -45,4 +45,14 @@ class ProjectRepository {
         $stmt = $this->pdo->prepare("DELETE FROM projects WHERE id = :id");
         $stmt->execute(['id' => $id]);
     }
+
+    public function getProjectById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM projects WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new Project($row['id'], $row['user_id'], $row['name'], $row['description'], $row['created_at']);
+        }
+        return null;
+    }
 }

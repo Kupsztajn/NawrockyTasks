@@ -27,35 +27,7 @@
                 <h3><?php echo htmlspecialchars($projectWithTasks['project']->getName()); ?></h3>
                 <p><?php echo htmlspecialchars($projectWithTasks['project']->getDescription()); ?></p>
                 <small>📅 Created: <?php echo htmlspecialchars($projectWithTasks['project']->getCreatedAt()); ?></small>
-
-                <h4>➕ Add Task to this Project</h4>
-                <form action="/add-task" method="POST">
-                    <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">
-                    <input type="text" name="title" placeholder="Task Title" required>
-                    <textarea name="description" placeholder="Task Description"></textarea>
-                    <button type="submit">📝 Add Task</button>
-                </form>
-
-                <div class="task-list">
-                    <h4>📋 Tasks</h4>
-                    <?php if (count($projectWithTasks['tasks']) > 0): ?>
-                        <?php foreach ($projectWithTasks['tasks'] as $task): ?>
-                            <div class="task-item">
-                                <strong><?php echo htmlspecialchars($task->getTitle()); ?></strong>
-                                <p><?php echo htmlspecialchars($task->getDescription()); ?></p>
-                                <small>📊 Status: <?php echo htmlspecialchars($task->getStatus()); ?> | 📅 Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
-                                <form action="/delete-task" method="POST">
-                                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
-                                    <button type="submit">🗑️ Delete</button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="task-item">
-                            <em>📝 No tasks in this project yet.</em>
-                        </div>
-                    <?php endif; ?>
-                </div>
+                <a href="/project?id=<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">👁️ View Tasks</a>
             </div>
         <?php endforeach; ?>
     <?php else: ?>

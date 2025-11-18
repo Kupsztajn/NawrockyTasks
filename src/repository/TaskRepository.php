@@ -47,4 +47,14 @@ class TaskRepository {
         $stmt = $this->pdo->prepare("DELETE FROM tasks WHERE id = :id");
         $stmt->execute(['id' => $id]);
     }
+
+    public function getTaskById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            return new Task($row['id'], $row['project_id'], $row['title'], $row['description'], $row['status'], $row['created_at']);
+        }
+        return null;
+    }
 }
