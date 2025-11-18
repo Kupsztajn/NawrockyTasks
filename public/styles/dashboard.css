@@ -266,3 +266,137 @@ a[href="/logout"] {
         justify-content: center;
     }
 }
+
+/* 👥 Project Users Section */
+.project-users {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+.project-users h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-left: 4px solid #667eea;
+}
+
+.user-item:hover {
+    background: #e2e8f0;
+    transform: translateX(6px);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.user-info strong {
+    color: #222;
+    font-size: 1rem;
+}
+
+.user-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.owner-badge {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #8b6914;
+    border: 1px solid #daa520;
+}
+
+.member-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border: 1px solid #5a67d8;
+}
+
+.remove-user-btn {
+    background: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.remove-user-btn:hover {
+    background: #e63946;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+}
+
+/* 📱 Mobile responsiveness for users */
+@media (max-width: 768px) {
+    .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .remove-user-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .user-info {
+        width: 100%;
+    }
+}
+
+/* Project Actions */
+.project-actions {
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.members-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    border: 1px solid #5a67d8;
+}
+
+.members-btn:hover {
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+}
+
+.back-btn {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: #fff;
+    border: 1px solid #e53e3e;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #e53e3e, #dd6b20);
+}

@@ -58,4 +58,31 @@ class UserRepository {
         }
         return $users;
     }
+
+    public function getUsersByProjectId($projectId) {
+        $stmt = $this->pdo->prepare("
+            SELECT DISTINCT u.id, u.email, u.created_at,
+                   CASE 
+                       WHEN p.user_id = u.id THEN 'owner'
+                       ELSE 'member'
+                   END as role
+            FROM users u
+            LEFT JOIN projects p ON p.id = :project_id AND p.user_id = u.id
+            LEFT JOIN project_invitations pi ON pi.invitee_user_id = u.id 
+                AND pi.project_id = :project_id 
+                AND pi.status = 'accepted'
+            WHERE p.user_id = u.id OR (pi.invitee_user_id = u.id AND pi.status = 'accepted')
+            ORDER BY role DESC, u.email ASC
+        ");
+        $stmt->execute(['project_id' => $projectId]);
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $user = new User($row['id'], $row['email'], null, $row['created_at']);
+            $users[] = [
+                'user' => $user,
+                'role' => $row['role']
+            ];
+        }
+        return $users;
+    }
 }

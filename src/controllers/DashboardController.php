@@ -288,6 +288,105 @@ class DashboardController extends AppController {
         exit();
     }
 
+    public function projectMembers()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $projectId = $_GET['id'] ?? '';
+        if (empty($projectId)) {
+            header('Location: /dashboard');
+            exit();
+        }
+
+        $projectRepository = new ProjectRepository();
+        $project = $projectRepository->getProjectById($projectId);
+
+        // Sprawdzenie uprawnień
+        $invitationRepository = new ProjectInvitationRepository();
+        $acceptedInvitation = $invitationRepository->findByProjectAndInvitee($projectId, $_SESSION['user_id']);
+
+        if (!$project || ($project->getUserId() != $_SESSION['user_id'] && !$acceptedInvitation)) {
+            header('Location: /dashboard');
+            exit();
+        }
+
+        // Pobierz użytkowników projektu
+        $userRepository = new UserRepository();
+        $projectUsers = $userRepository->getUsersByProjectId($projectId);
+
+        // Sprawdź czy obecny użytkownik jest właścicielem
+        $isOwner = ($project->getUserId() == $_SESSION['user_id']);
+
+        return $this->render('project-members', [
+            'project' => $project,
+            'projectUsers' => $projectUsers,
+            'isOwner' => $isOwner
+        ]);
+    }
+
+    public function removeUserFromProject() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Unauthorized']);
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method not allowed']);
+            exit();
+        }
+
+        $projectId = $_POST['project_id'] ?? '';
+        $userId = $_POST['user_id'] ?? '';
+
+        if (empty($projectId) || empty($userId)) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Missing parameters']);
+            exit();
+        }
+
+        // Sprawdź czy użytkownik jest właścicielem projektu
+        $projectRepository = new ProjectRepository();
+        $project = $projectRepository->getProjectById($projectId);
+
+        if (!$project || $project->getUserId() != $_SESSION['user_id']) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Only project owner can remove users']);
+            exit();
+        }
+
+        // Nie można usunąć właściciela projektu
+        if ($userId == $project->getUserId()) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Cannot remove project owner']);
+            exit();
+        }
+
+        // Usuń zaproszenie (co skutkuje usunięciem użytkownika z projektu)
+        $invitationRepository = new ProjectInvitationRepository();
+        $invitation = $invitationRepository->findByProjectAndInvitee($projectId, $userId);
+
+        if ($invitation) {
+            $invitationRepository->delete($invitation->getId());
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+        } else {
+            http_response_code(404);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'User not found in project']);
+        }
+        exit();
+    }
+
 }
-
-

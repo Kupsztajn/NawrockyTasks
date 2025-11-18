@@ -11,13 +11,15 @@ class Routing {
         'change-password' => 'SecurityController@changePassword',
         'dashboard' => 'DashboardController@dashboard',
         'project' => 'DashboardController@project',
+        'project-members' => 'DashboardController@projectMembers',
         'add-project' => 'DashboardController@addProject',
         'add-task' => 'DashboardController@addTask',
         'delete-task' => 'DashboardController@deleteTask',
         'search-users' => 'DashboardController@searchUsers',
         'invite-user' => 'DashboardController@inviteUser',
         'accept-invitation' => 'DashboardController@acceptInvitation',
-        'decline-invitation' => 'DashboardController@declineInvitation'
+        'decline-invitation' => 'DashboardController@declineInvitation',
+        'remove-user' => 'DashboardController@removeUserFromProject'
     ];
 
     public static function run($path) {
