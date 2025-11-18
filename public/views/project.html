@@ -9,8 +9,8 @@
     <title>PROJECT</title>
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <h1>📁 <?php echo htmlspecialchars($project->getName()); ?></h1>
-    <a href="/dashboard">⬅️ Back to Dashboard</a> | <a href="/logout">🚪 Logout</a>
 
     <div class="dashboard-container">
         <p><?php echo htmlspecialchars($project->getDescription()); ?></p>

@@ -5,6 +5,8 @@ body {
   color: #333;
   margin: 0;
   padding: 2rem;
+  padding-top: 150px; /* żeby treść nie wchodziła pod navbar */
+
 }
 
 h1, h2, h3, h4 {
@@ -190,4 +192,77 @@ a[href="/logout"] {
   text-align: center;
   margin-bottom: 2rem;
   font-size: 1.1rem;
+}
+
+/* 🌐 NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 2px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    z-index: 1000; /* żeby był nad wszystkim */
+}
+
+
+/* Lewa + prawa strona */
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Przycisk w navbarze */
+.nav-btn {
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.6rem 1.1rem;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #333;
+    border: 1px solid #e5e7eb;
+    transition: all 0.25s ease;
+}
+
+/* Hover */
+.nav-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Logout w czerwonym stylu */
+.nav-btn.logout {
+    background: #ffe5e5;
+    border-color: #ffb1b1;
+    color: #d62828;
+}
+
+.nav-btn.logout:hover {
+    background: #ffcccc;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1rem;
+    }
+
+    .nav-left, .nav-right {
+        width: 100%;
+        justify-content: center;
+    }
 }
