@@ -132,6 +132,35 @@ class DashboardController extends AppController {
         exit();
     }
 
+    public function updateTaskStatus()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? '';
+
+            if (!empty($id)) {
+                $taskRepository = new TaskRepository();
+                $task = $taskRepository->getTaskById($id);
+                if ($task) {
+                    // Toggle status
+                    $newStatus = $task->getStatus() === 'done' ? 'pending' : 'done';
+                    $task->setStatus($newStatus);
+                    $taskRepository->update($task);
+                    header('Location: /project?id=' . $task->getProjectId());
+                    exit();
+                }
+            }
+        }
+
+        header('Location: /dashboard');
+        exit();
+    }
+
     public function project()
     {
         session_start();

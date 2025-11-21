@@ -39,7 +39,11 @@
                         <strong><?php echo htmlspecialchars($task->getTitle()); ?></strong>
                         <p><?php echo htmlspecialchars($task->getDescription()); ?></p>
                         <small><?php echo $task->getStatus() === 'done' ? '✅' : '⏳'; ?> Status: <?php echo htmlspecialchars($task->getStatus()); ?> | 📅 Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
-                        <form action="/delete-task" method="POST">
+                        <form action="/update-task-status" method="POST" style="display: inline;">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
+                            <button type="submit"><?php echo $task->getStatus() === 'done' ? '🔄 Mark as Pending' : '✅ Mark as Done'; ?></button>
+                        </form>
+                        <form action="/delete-task" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
                             <button type="submit">🗑️ Delete</button>
                         </form>

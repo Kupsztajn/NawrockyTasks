@@ -15,6 +15,7 @@ class Routing {
         'add-project' => 'DashboardController@addProject',
         'add-task' => 'DashboardController@addTask',
         'delete-task' => 'DashboardController@deleteTask',
+        'update-task-status' => 'DashboardController@updateTaskStatus',
         'search-users' => 'DashboardController@searchUsers',
         'invite-user' => 'DashboardController@inviteUser',
         'accept-invitation' => 'DashboardController@acceptInvitation',
