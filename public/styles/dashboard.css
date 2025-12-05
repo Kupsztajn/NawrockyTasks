@@ -9,6 +9,11 @@ body {
 
 }
 
+.dashboard-container h2 {
+    margin-bottom: 1rem; /* odstęp pod każdym h2 w dashboardzie */
+    margin-top: 2rem;
+}
+
 h1, h2, h3, h4 {
   font-weight: 600;
 }
