@@ -11,7 +11,7 @@
 </head>
 <body>
     <?php include 'navbar.php'; ?>
-    <h1>📁 <?php echo htmlspecialchars($project->getName()); ?></h1>
+    <h1><?php echo htmlspecialchars($project->getName()); ?></h1>
 
     <div class="dashboard-container">
         <p><?php echo htmlspecialchars($project->getDescription()); ?></p>
@@ -20,11 +20,11 @@
         <!-- Project Members Button -->
         <div class="project-actions">
             <a href="/project-members?id=<?php echo htmlspecialchars($project->getId()); ?>" class="nav-btn members-btn">
-                👥 View Project Members
+                View Project Members
             </a>
         </div>
 
-        <h2>➕ Add Task to this Project</h2>
+        <h2>Add Task to this Project</h2>
         <form action="/add-task" method="POST">
             <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($project->getId()); ?>">
             <div style="display: flex; align-items: center; gap: 5px;">
@@ -32,11 +32,11 @@
                 <button type="button" id="voiceBtn">🎤</button>
             </div>
             <textarea name="description" placeholder="Task Description"></textarea>
-            <button type="submit">📝 Add Task</button>
+            <button type="submit">Add Task</button>
         </form>
 
         <div class="task-list">
-            <h2>📋 Tasks</h2>
+            <h2>Tasks</h2>
             <?php if (isset($tasks) && count($tasks) > 0): ?>
                 <?php foreach ($tasks as $task): ?>
                     <div class="task-item">
@@ -45,11 +45,11 @@
                         <small><?php echo $task->getStatus() === 'done' ? '✅' : '⏳'; ?> Status: <?php echo htmlspecialchars($task->getStatus()); ?> | 📅 Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
                         <form action="/update-task-status" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
-                            <button type="submit"><?php echo $task->getStatus() === 'done' ? '🔄 Mark as Pending' : '✅ Mark as Done'; ?></button>
+                            <button type="submit"><?php echo $task->getStatus() === 'done' ? 'Mark as Pending' : '✅ Mark as Done'; ?></button>
                         </form>
                         <form action="/delete-task" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
-                            <button type="submit">🗑️ Delete</button>
+                            <button type="submit">Delete</button>
                         </form>
                     </div>
                 <?php endforeach; ?>

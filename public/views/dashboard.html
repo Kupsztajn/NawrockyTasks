@@ -12,31 +12,36 @@
     <?php include 'navbar.php'; ?>
 
     <div class="dashboard-container">
-    <h2>➕ Add New Project</h2>
+    <h2>Add New Project</h2>
+    <div class="dashboard-create-project">
     <form action="/add-project" method="POST">
         <input type="text" name="name" placeholder="Project Name" required>
         <textarea name="description" placeholder="Project Description"></textarea>
-        <button type="submit">✨ Create Project</button>
+        <button class="main-form" type="submit">Create Project</button>
     </form>
+    </div>
+
+
 
     <?php if (isset($pendingInvitations) && count($pendingInvitations) > 0): ?>
-    <h2>📨 Pending Invitations</h2>
+    <h2>Pending Invitations</h2>
     <?php foreach ($pendingInvitations as $invitation): ?>
         <div class="project-card">
             <p>You have been invited to join a project.</p>
             <form action="/accept-invitation" method="POST" style="display: inline;">
                 <input type="hidden" name="invitation_id" value="<?php echo htmlspecialchars($invitation->getId()); ?>">
-                <button type="submit">✅ Accept</button>
+                <button type="submit" class="invitation-btn">✅ Accept</button>
             </form>
             <form action="/decline-invitation" method="POST" style="display: inline;">
                 <input type="hidden" name="invitation_id" value="<?php echo htmlspecialchars($invitation->getId()); ?>">
-                <button type="submit">❌ Decline</button>
+                <button type="submit" class="invitation-btn">❌ Decline</button>
             </form>
+
         </div>
     <?php endforeach; ?>
     <?php endif; ?>
 
-    <h2>📁 Your Projects</h2>
+    <h2>Your Projects</h2>
     <?php if (isset($projectsWithTasks) && count($projectsWithTasks) > 0): ?>
         <?php foreach ($projectsWithTasks as $projectWithTasks): ?>
             <div class="project-card">
@@ -46,7 +51,7 @@
                 <a href="/project?id=<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">👁️ View Tasks</a>
                 <!-- Invite users -->
                 <button class="open-invite" data-project-id="<?php echo $projectWithTasks['project']->getId(); ?>">
-                    ➕ Invite Users
+                    Invite Users
                 </button>
 
                 <div class="invite-panel" id="invite-panel-<?php echo $projectWithTasks['project']->getId(); ?>" style="display:none;">
@@ -57,11 +62,11 @@
         <?php endforeach; ?>
     <?php else: ?>
         <div class="project-card">
-            <p>📂 No own projects yet. Create your first project above!</p>
+            <p>No own projects yet. Create your first project above!</p>
         </div>
     <?php endif; ?>
 
-<h2>📨 Invited to Projects</h2>
+<h2>Invited to Projects</h2>
 <?php if (isset($invitedProjects) && count($invitedProjects) > 0): ?>
     <?php foreach ($invitedProjects as $invited): ?>
         <div class="project-card invited-project">
@@ -77,9 +82,9 @@
     <?php endforeach; ?>
 <?php else: ?>
     <div class="project-card">
-        <p>📂 No invited projects yet.</p>
+        <p>No invited projects yet.</p>
     </div>
 <?php endif; ?>
-    </div>
+
 </body>
 </html>
