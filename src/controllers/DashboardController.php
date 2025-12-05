@@ -418,4 +418,28 @@ class DashboardController extends AppController {
         exit();
     }
 
+    public function leaveProject() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $projectId = $_POST['project_id'] ?? '';
+
+            if (!empty($projectId)) {
+                $invitationRepository = new ProjectInvitationRepository();
+                $invitation = $invitationRepository->findByProjectAndInvitee($projectId, $_SESSION['user_id']);
+
+                if ($invitation && $invitation->getStatus() === 'accepted') {
+                    $invitationRepository->delete($invitation->getId());
+                }
+            }
+        }
+
+        header('Location: /dashboard');
+        exit();
+    }
+
 }

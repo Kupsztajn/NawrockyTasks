@@ -12,8 +12,79 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #a8edea, #fed6e3);
-  color: #333;
+
+  /* 🔥 Tło jako obrazek */
+  background: url("/public/assets/images/image.png") no-repeat center center fixed;
+  background-size: cover;
+  position: relative; /* konieczne dla ::before */
+  color: #fff; /* zmieniamy kolor na jasny dla lepszego kontrastu */
+}
+
+/* 🌑 Półprzezroczysty ciemny overlay */
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* półprzezroczysty czarny */
+  z-index: 1; /* overlay nad tłem, ale pod formularzem */
+}
+
+/* Formularz */
+form {
+  position: relative; /* żeby był nad overlay */
+  z-index: 2;
+
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 1.5rem;
+  padding: 2.5rem 3rem;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* ✨ Efekt hover na formularzu */
+form:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* 🧩 Pola formularza */
+input, button {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+/* 🔍 Efekt focus */
+input:focus {
+  border-color: #2b9348;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(43, 147, 72, 0.2);
+}
+
+/* 🟢 Przycisk */
+button {
+  background-color: #2b9348;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #208a3c;
+  transform: scale(1.03);
 }
 
 /* 🏷️ Nagłówek */
@@ -21,7 +92,7 @@ h1 {
   color: #2b9348;
   font-size: 2rem;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* 📝 Formularz */
