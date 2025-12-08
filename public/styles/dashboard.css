@@ -5,7 +5,7 @@ body {
   color: #333;
   margin: 0;
   padding: 2rem;
-  padding-top: 150px; /* żeby treść nie wchodziła pod navbar */
+  padding-top: 100px; /* żeby treść nie wchodziła pod navbar */
 
 }
 
@@ -235,7 +235,7 @@ a[href="/logout"] {
     width: 100%;
     background: #ffffffcc;
     backdrop-filter: blur(10px);
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
 
     display: flex;
     justify-content: space-between;
@@ -251,19 +251,24 @@ a[href="/logout"] {
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 /* Przycisk w navbarze */
 .nav-btn {
     text-decoration: none;
     font-weight: 500;
-    padding: 0.6rem 1.1rem;
+    padding: 0.5rem 0.9rem;
     border-radius: 10px;
     background: #f3f4f6;
     color: #333;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #2b2c2ec0;
     transition: all 0.25s ease;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding-top: 10px; /* tylko pod navbar */
 }
 
 /* Hover */
@@ -278,6 +283,8 @@ a[href="/logout"] {
     background: #ffe5e5;
     border-color: #ffb1b1;
     color: #d62828;
+    margin: 0;
+    padding-top: 10px; /* tylko pod navbar */
 }
 
 .nav-btn.logout:hover {
