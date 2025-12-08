@@ -441,4 +441,29 @@ class DashboardController extends AppController {
         exit();
     }
 
+    public function deleteProject() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $projectId = $_POST['project_id'] ?? '';
+
+            if (!empty($projectId)) {
+                $projectRepository = new ProjectRepository();
+                $project = $projectRepository->getProjectById($projectId);
+
+                // Check if the user owns the project
+                if ($project && $project->getUserId() == $_SESSION['user_id']) {
+                    $projectRepository->delete($projectId);
+                }
+            }
+        }
+
+        header('Location: /dashboard');
+        exit();
+    }
+
 }
