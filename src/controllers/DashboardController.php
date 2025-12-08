@@ -211,10 +211,12 @@ class DashboardController extends AppController {
         $usersFromDb = $userRepository->searchUsers($query);
         $users = [];
         foreach ($usersFromDb as $user) {
-            $users[] = [
-            'id' => $user->getId(),
-            'email' => $user->getEmail()
-            ];
+            if ($user->getId() != $_SESSION['user_id']) {
+                $users[] = [
+                'id' => $user->getId(),
+                'email' => $user->getEmail()
+                ];
+            }
         }
 
         header('Content-Type: application/json');
@@ -246,6 +248,13 @@ class DashboardController extends AppController {
             http_response_code(400);
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Missing parameters']);
+            exit();
+        }
+
+        if ($inviteeId == $_SESSION['user_id']) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Cannot invite yourself']);
             exit();
         }
 
