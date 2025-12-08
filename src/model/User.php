@@ -5,12 +5,20 @@ class User {
     private $email;
     private $password;
     private $createdAt;
+    private $firstName;
+    private $lastName;
+    private $phone;
+    private $bio;
 
-    public function __construct($id = null, $email = null, $password = null, $createdAt = null) {
+    public function __construct($id = null, $email = null, $password = null, $createdAt = null, $firstName = null, $lastName = null, $phone = null, $bio = null) {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;
         $this->createdAt = $createdAt;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->phone = $phone;
+        $this->bio = $bio;
     }
 
     public function getId() {
@@ -47,5 +55,37 @@ class User {
 
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
+    }
+
+    public function getFirstName() {
+        return $this->firstName;
+    }
+
+    public function setFirstName($firstName) {
+        $this->firstName = $firstName;
+    }
+
+    public function getLastName() {
+        return $this->lastName;
+    }
+
+    public function setLastName($lastName) {
+        $this->lastName = $lastName;
+    }
+
+    public function getPhone() {
+        return $this->phone;
+    }
+
+    public function setPhone($phone) {
+        $this->phone = $phone;
+    }
+
+    public function getBio() {
+        return $this->bio;
+    }
+
+    public function setBio($bio) {
+        $this->bio = $bio;
     }
 }

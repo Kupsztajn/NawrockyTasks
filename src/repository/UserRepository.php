@@ -11,21 +11,35 @@ class UserRepository {
     }
 
     public function findByEmail($email) {
-        $stmt = $this->pdo->prepare("SELECT id, email, password, created_at FROM users WHERE email = :email");
+        $stmt = $this->pdo->prepare("
+            SELECT u.id, u.email, u.password, u.created_at,
+                   up.first_name, up.last_name, up.phone, up.bio
+            FROM users u
+            LEFT JOIN user_profiles up ON u.id = up.user_id
+            WHERE u.email = :email
+        ");
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['id'], $row['email'], $row['password'], $row['created_at']);
+            return new User($row['id'], $row['email'], $row['password'], $row['created_at'],
+                            $row['first_name'], $row['last_name'], $row['phone'], $row['bio']);
         }
         return null;
     }
 
     public function findById($id) {
-        $stmt = $this->pdo->prepare("SELECT id, email, password, created_at FROM users WHERE id = :id");
+        $stmt = $this->pdo->prepare("
+            SELECT u.id, u.email, u.password, u.created_at,
+                   up.first_name, up.last_name, up.phone, up.bio
+            FROM users u
+            LEFT JOIN user_profiles up ON u.id = up.user_id
+            WHERE u.id = :id
+        ");
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['id'], $row['email'], $row['password'], $row['created_at']);
+            return new User($row['id'], $row['email'], $row['password'], $row['created_at'],
+                            $row['first_name'], $row['last_name'], $row['phone'], $row['bio']);
         }
         return null;
     }
@@ -46,6 +60,25 @@ class UserRepository {
         $stmt->execute([
             'password' => $hashedPassword,
             'id' => $userId
+        ]);
+    }
+
+    public function updateProfile($userId, $firstName, $lastName, $phone, $bio) {
+        $stmt = $this->pdo->prepare("
+            INSERT INTO user_profiles (user_id, first_name, last_name, phone, bio)
+            VALUES (:user_id, :first_name, :last_name, :phone, :bio)
+            ON CONFLICT (user_id) DO UPDATE SET
+                first_name = EXCLUDED.first_name,
+                last_name = EXCLUDED.last_name,
+                phone = EXCLUDED.phone,
+                bio = EXCLUDED.bio
+        ");
+        $stmt->execute([
+            'user_id' => $userId,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'phone' => $phone,
+            'bio' => $bio
         ]);
     }
 

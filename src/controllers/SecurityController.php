@@ -81,6 +81,18 @@ class SecurityController extends AppController {
         }
         $userRepository = new UserRepository();
         $user = $userRepository->findById($_SESSION['user_id']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+            $firstName = $_POST['first_name'] ?? '';
+            $lastName = $_POST['last_name'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $bio = $_POST['bio'] ?? '';
+
+            $userRepository->updateProfile($_SESSION['user_id'], $firstName, $lastName, $phone, $bio);
+            $user = $userRepository->findById($_SESSION['user_id']); // Refresh user data
+            return $this->render('account', ['user' => $user, 'profile_success' => 'Profile updated successfully']);
+        }
+
         return $this->render('account', ['user' => $user]);
     }
 

@@ -21,6 +21,24 @@
             <small>📅 Created: <?php echo htmlspecialchars($user->getCreatedAt()); ?></small>
         </div>
         <div class="project-card">
+            <h3>Profile Information</h3>
+            <form action="/account" method="POST">
+                <input type="hidden" name="update_profile" value="1">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user->getFirstName() ?? ''); ?>"><br><br>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user->getLastName() ?? ''); ?>"><br><br>
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($user->getPhone() ?? ''); ?>"><br><br>
+                <label for="bio">Bio:</label>
+                <textarea id="bio" name="bio" rows="4"><?php echo htmlspecialchars($user->getBio() ?? ''); ?></textarea><br><br>
+                <button type="submit">Update Profile</button>
+            </form>
+            <?php if (isset($profile_success)): ?>
+                <p style="color: green;"><?php echo htmlspecialchars($profile_success); ?></p>
+            <?php endif; ?>
+        </div>
+        <div class="project-card">
             <h3>Account Management</h3>
             <form action="/change-password" method="POST">
                 <label for="current_password">Current Password:</label>
