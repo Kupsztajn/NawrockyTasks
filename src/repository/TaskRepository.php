@@ -20,6 +20,19 @@ class TaskRepository {
         return $tasks;
     }
 
+    public function getTasksByProjectIdAndStatus($projectId, $status) {
+        if ($status === 'all') {
+            return $this->getTasksByProjectId($projectId);
+        }
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE project_id = :project_id AND status = :status ORDER BY created_at DESC");
+        $stmt->execute(['project_id' => $projectId, 'status' => $status]);
+        $tasks = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $tasks[] = new Task($row['id'], $row['project_id'], $row['title'], $row['description'], $row['status'], $row['created_at']);
+        }
+        return $tasks;
+    }
+
     public function save(Task $task) {
         $stmt = $this->pdo->prepare("INSERT INTO tasks (project_id, title, description, status, created_at) VALUES (:project_id, :title, :description, :status, :created_at)");
         $stmt->execute([

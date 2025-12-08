@@ -116,13 +116,14 @@ class DashboardController extends AppController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? '';
+            $status = $_POST['status'] ?? 'all';
 
             if (!empty($id)) {
                 $taskRepository = new TaskRepository();
                 $task = $taskRepository->getTaskById($id); // Get task to find project_id
                 $taskRepository->delete($id);
                 if ($task) {
-                    header('Location: /project?id=' . $task->getProjectId());
+                    header('Location: /project?id=' . $task->getProjectId() . '&status=' . urlencode($status));
                     exit();
                 }
             }
@@ -142,6 +143,7 @@ class DashboardController extends AppController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? '';
+            $status = $_POST['status'] ?? 'all';
 
             if (!empty($id)) {
                 $taskRepository = new TaskRepository();
@@ -151,7 +153,7 @@ class DashboardController extends AppController {
                     $newStatus = $task->getStatus() === 'done' ? 'pending' : 'done';
                     $task->setStatus($newStatus);
                     $taskRepository->update($task);
-                    header('Location: /project?id=' . $task->getProjectId());
+                    header('Location: /project?id=' . $task->getProjectId() . '&status=' . urlencode($status));
                     exit();
                 }
             }
@@ -175,6 +177,11 @@ class DashboardController extends AppController {
             exit();
         }
 
+        $status = $_GET['status'] ?? 'all';
+        if (!in_array($status, ['all', 'pending', 'done'])) {
+            $status = 'all';
+        }
+
         $projectRepository = new ProjectRepository();
         $project = $projectRepository->getProjectById($projectId);
 
@@ -187,9 +194,9 @@ class DashboardController extends AppController {
         }
 
         $taskRepository = new TaskRepository();
-        $tasks = $taskRepository->getTasksByProjectId($projectId);
+        $tasks = $taskRepository->getTasksByProjectIdAndStatus($projectId, $status);
 
-        return $this->render('project', ['project' => $project, 'tasks' => $tasks]);
+        return $this->render('project', ['project' => $project, 'tasks' => $tasks, 'currentStatus' => $status]);
     }
 
     public function searchUsers()

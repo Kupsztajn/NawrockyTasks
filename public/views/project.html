@@ -35,6 +35,12 @@
             <button type="submit">Add Task</button>
         </form>
 
+        <div class="task-tabs">
+            <a href="/project?id=<?php echo htmlspecialchars($project->getId()); ?>&status=all" class="tab-link <?php echo $currentStatus === 'all' ? 'active' : ''; ?>">All Tasks</a>
+            <a href="/project?id=<?php echo htmlspecialchars($project->getId()); ?>&status=pending" class="tab-link <?php echo $currentStatus === 'pending' ? 'active' : ''; ?>">Active Tasks</a>
+            <a href="/project?id=<?php echo htmlspecialchars($project->getId()); ?>&status=done" class="tab-link <?php echo $currentStatus === 'done' ? 'active' : ''; ?>">Completed Tasks</a>
+        </div>
+
         <div class="task-list">
             <h2>Tasks</h2>
             <?php if (isset($tasks) && count($tasks) > 0): ?>
@@ -45,17 +51,19 @@
                         <small><?php echo $task->getStatus() === 'done' ? '✅' : '⏳'; ?> Status: <?php echo htmlspecialchars($task->getStatus()); ?> | Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
                         <form action="/update-task-status" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
+                            <input type="hidden" name="status" value="<?php echo htmlspecialchars($currentStatus); ?>">
                             <button type="submit"><?php echo $task->getStatus() === 'done' ? 'Mark as Pending' : '✅ Mark as Done'; ?></button>
                         </form>
                         <form action="/delete-task" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
+                            <input type="hidden" name="status" value="<?php echo htmlspecialchars($currentStatus); ?>">
                             <button type="submit">Delete</button>
                         </form>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="task-item">
-                    <em>📝 No tasks in this project yet.</em>
+                    <em>No tasks in this project yet.</em>
                 </div>
             <?php endif; ?>
         </div>
