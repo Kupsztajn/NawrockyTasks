@@ -12,13 +12,13 @@
     <?php include 'navbar.php'; ?>
 
     <div class="dashboard-container">
-    <h2>👤 Your Account</h2>
+    <h2>Your Account</h2>
     <?php if (isset($user)): ?>
         <div class="project-card">
             <h3>Account Information</h3>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($user->getEmail()); ?></p>
             <p><strong>User ID:</strong> <?php echo htmlspecialchars($user->getId()); ?></p>
-            <small>📅 Created: <?php echo htmlspecialchars($user->getCreatedAt()); ?></small>
+            <small>Created: <?php echo htmlspecialchars($user->getCreatedAt()); ?></small>
         </div>
         <div class="project-card">
             <h3>Profile Information</h3>
@@ -55,11 +55,11 @@
             <?php if (isset($success)): ?>
                 <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
             <?php endif; ?>
-            <p>🗑️ Delete Account: [Placeholder - Button to be added]</p>
+            <p>Delete Account: [Placeholder - Button to be added]</p>
         </div>
     <?php else: ?>
         <div class="project-card">
-            <p>❌ Unable to load account information.</p>
+            <p>Unable to load account information.</p>
         </div>
     <?php endif; ?>
     </div>

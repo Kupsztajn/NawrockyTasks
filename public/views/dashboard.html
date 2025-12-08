@@ -47,8 +47,8 @@
             <div class="project-card">
                 <h3><?php echo htmlspecialchars($projectWithTasks['project']->getName()); ?></h3>
                 <p><?php echo htmlspecialchars($projectWithTasks['project']->getDescription()); ?></p>
-                <small>📅 Created: <?php echo htmlspecialchars($projectWithTasks['project']->getCreatedAt()); ?></small>
-                <a href="/project?id=<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">👁️ View Tasks</a>
+                <small>Created: <?php echo htmlspecialchars($projectWithTasks['project']->getCreatedAt()); ?></small>
+                <a href="/project?id=<?php echo htmlspecialchars($projectWithTasks['project']->getId()); ?>">View Tasks</a>
                 <!-- Invite users -->
                 <button class="open-invite" data-project-id="<?php echo $projectWithTasks['project']->getId(); ?>">
                     Invite Users
@@ -73,10 +73,10 @@
             <h3><?php echo htmlspecialchars($invited['project']->getName()); ?></h3>
             <p><?php echo htmlspecialchars($invited['project']->getDescription()); ?></p>
             <small>Status: <?php echo htmlspecialchars($invited['status']); ?></small>
-            <a href="/project?id=<?php echo htmlspecialchars($invited['project']->getId()); ?>">👁️ View Tasks</a>
+            <a href="/project?id=<?php echo htmlspecialchars($invited['project']->getId()); ?>">View Tasks</a>
             <form action="/leave-project" method="POST" style="display: inline;">
                 <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($invited['project']->getId()); ?>">
-                <button type="submit" onclick="return confirm('Are you sure you want to leave this project?')">🚪 Leave Project</button>
+                <button type="submit" onclick="return confirm('Are you sure you want to leave this project?')">Leave Project</button>
             </form>
         </div>
     <?php endforeach; ?>

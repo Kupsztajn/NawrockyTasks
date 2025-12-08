@@ -15,7 +15,7 @@
 
     <div class="dashboard-container">
         <p><?php echo htmlspecialchars($project->getDescription()); ?></p>
-        <small>📅 Created: <?php echo htmlspecialchars($project->getCreatedAt()); ?></small>
+        <small>Created: <?php echo htmlspecialchars($project->getCreatedAt()); ?></small>
 
         <!-- Project Members Button -->
         <div class="project-actions">
@@ -42,7 +42,7 @@
                     <div class="task-item">
                         <strong><?php echo htmlspecialchars($task->getTitle()); ?></strong>
                         <p><?php echo htmlspecialchars($task->getDescription()); ?></p>
-                        <small><?php echo $task->getStatus() === 'done' ? '✅' : '⏳'; ?> Status: <?php echo htmlspecialchars($task->getStatus()); ?> | 📅 Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
+                        <small><?php echo $task->getStatus() === 'done' ? '✅' : '⏳'; ?> Status: <?php echo htmlspecialchars($task->getStatus()); ?> | Created: <?php echo htmlspecialchars($task->getCreatedAt()); ?></small>
                         <form action="/update-task-status" method="POST" style="display: inline;">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($task->getId()); ?>">
                             <button type="submit"><?php echo $task->getStatus() === 'done' ? 'Mark as Pending' : '✅ Mark as Done'; ?></button>
