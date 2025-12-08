@@ -183,8 +183,7 @@ class DashboardController extends AppController {
         $acceptedInvitation = $invitationRepository->findByProjectAndInvitee($projectId, $_SESSION['user_id']);
 
         if (!$project || ($project->getUserId() != $_SESSION['user_id'] && !$acceptedInvitation)) {
-            header('Location: /dashboard');
-            exit();
+            $this->forbidden();
         }
 
         $taskRepository = new TaskRepository();
