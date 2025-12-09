@@ -1,0 +1,242 @@
+/* 🌈 Ogólny wygląd */
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+  padding-top: 100px; /* żeby treść nie wchodziła pod navbar */
+}
+
+.dashboard-container h2 {
+    margin-bottom: 1rem; /* odstęp pod każdym h2 w dashboardzie */
+    margin-top: 2rem;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+}
+
+/* 🔗 Linki */
+a {
+  text-decoration: none;
+  color: #667eea;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #5a67d8;
+}
+
+/* 📁 Projekty */
+.project-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.164);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.12);
+}
+
+.project-card h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.project-card p {
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.project-card small {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* ➕ Formularze dodawania */
+form input, form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+}
+
+form button[type="submit"] {
+  background: #667eea;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background: #5a67d8;
+  transform: scale(1.05);
+}
+
+/* 📱 Responsywność */
+@media (max-width: 768px) {
+  body {
+    padding: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .project-card {
+    padding: 2rem;
+  }
+
+  .project-card h3 {
+    font-size: 1.8rem;
+  }
+
+  .project-card p {
+    font-size: 1rem;
+  }
+
+  .project-card small {
+    font-size: 1rem;
+  }
+
+  form {
+    padding: 2rem;
+  }
+
+  form input, form textarea {
+    padding: 1rem 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  form button[type="submit"] {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+  }
+}
+
+/* 📌 Centrum treści */
+.dashboard-container {
+  max-width: 900px;      /* szerokość kontenera */
+  margin: 0 auto;        /* centrowanie */
+  margin-top: 2rem;
+  padding: 0 1rem;       /* lekkie boczne odstępy na mobile */
+}
+
+/* Żeby nagłówek też był ładnie wyśrodkowany */
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+a[href="/logout"] {
+  display: block;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* 🌐 NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 2px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    z-index: 1000; /* żeby był nad wszystkim */
+}
+
+/* Lewa + prawa strona */
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Przycisk w navbarze */
+.nav-btn {
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    background: #f3f4f6;
+    color: #333;
+    border: 1px solid #2b2c2ec0;
+    transition: all 0.25s ease;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding-top: 10px; /* tylko pod navbar */
+}
+
+/* Hover */
+.nav-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Logout w czerwonym stylu */
+.nav-btn.logout {
+    background: #ffe5e5;
+    border-color: #ffb1b1;
+    color: #d62828;
+    margin: 0;
+    padding-top: 10px; /* tylko pod navbar */
+}
+
+.nav-btn.logout:hover {
+    background: #ffcccc;
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1rem;
+    }
+
+    .nav-left, .nav-right {
+        width: 100%;
+        justify-content: center;
+    }
+}
