@@ -246,6 +246,9 @@ a[href="/logout"] {
     z-index: 1000; /* żeby był nad wszystkim */
 }
 
+.hamburger-menu {
+    display: none;
+  }
 
 /* Lewa + prawa strona */
 .nav-left, .nav-right {
