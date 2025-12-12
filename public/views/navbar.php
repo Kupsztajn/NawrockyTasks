@@ -7,6 +7,20 @@
     <div class="nav-left">
         <a href="/" class="nav-btn">🏠 Home</a>
         <a href="/dashboard" class="nav-btn">📊 Dashboard</a>
+        <?php
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (isset($_SESSION['user_id'])) {
+            require_once 'src/repository/UserRepository.php';
+            $userRepo = new UserRepository();
+            $currentUser = $userRepo->findById($_SESSION['user_id']);
+            if ($currentUser && $currentUser->getIsAdmin()) {
+                echo '<a href="/admin-users" class="nav-btn">👑 Admin</a>';
+            }
+        }
+        ?>
         <a href="/account" class="nav-btn">👤 Account</a>
     </div>
     <div class="nav-right">

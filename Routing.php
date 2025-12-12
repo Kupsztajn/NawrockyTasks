@@ -22,7 +22,8 @@ class Routing {
         'decline-invitation' => 'DashboardController@declineInvitation',
         'remove-user' => 'DashboardController@removeUserFromProject',
         'leave-project' => 'DashboardController@leaveProject',
-        'delete-project' => 'DashboardController@deleteProject'
+        'delete-project' => 'DashboardController@deleteProject',
+        'admin-users' => 'DashboardController@adminUsers'
     ];
 
     public static function run($path) {

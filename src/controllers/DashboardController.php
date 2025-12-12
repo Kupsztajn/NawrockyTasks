@@ -497,4 +497,21 @@ class DashboardController extends AppController {
         exit();
     }
 
+    public function adminUsers() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if (!isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
+            $this->forbidden();
+        }
+
+        $userRepository = new UserRepository();
+        $users = $userRepository->getAllUsers();
+
+        return $this->render('admin-users', ['users' => $users]);
+    }
+
 }

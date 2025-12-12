@@ -4,16 +4,18 @@ class User {
     private $id;
     private $email;
     private $password;
+    private $isAdmin;
     private $createdAt;
     private $firstName;
     private $lastName;
     private $phone;
     private $bio;
 
-    public function __construct($id = null, $email = null, $password = null, $createdAt = null, $firstName = null, $lastName = null, $phone = null, $bio = null) {
+    public function __construct($id = null, $email = null, $password = null, $isAdmin = null, $createdAt = null, $firstName = null, $lastName = null, $phone = null, $bio = null) {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;
+        $this->isAdmin = $isAdmin;
         $this->createdAt = $createdAt;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -87,5 +89,13 @@ class User {
 
     public function setBio($bio) {
         $this->bio = $bio;
+    }
+
+    public function getIsAdmin() {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin($isAdmin) {
+        $this->isAdmin = $isAdmin;
     }
 }

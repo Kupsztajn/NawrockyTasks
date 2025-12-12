@@ -14,13 +14,14 @@ class SecurityController extends AppController {
             $userRepository = new UserRepository();
             $user = $userRepository->findByEmail($email);
 
-            if ($user && $user->verifyPassword($password)) {
-                session_start();
-                $_SESSION['user_id'] = $user->getId();
-                $_SESSION['user_email'] = $user->getEmail();
-                header('Location: /dashboard');
-                exit();
-            } else {
+                if ($user && $user->verifyPassword($password)) {
+                    session_start();
+                    $_SESSION['user_id'] = $user->getId();
+                    $_SESSION['user_email'] = $user->getEmail();
+                    $_SESSION['user_is_admin'] = $user->getIsAdmin();
+                    header('Location: /dashboard');
+                    exit();
+                } else {
                 return $this->render('login', ['error' => 'Invalid email or password']);
             }
         }

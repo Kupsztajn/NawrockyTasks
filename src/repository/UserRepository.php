@@ -29,7 +29,7 @@ class UserRepository {
 
     public function findById($id) {
         $stmt = $this->pdo->prepare("
-            SELECT u.id, u.email, u.password, u.created_at,
+            SELECT u.id, u.email, u.password, u.is_admin, u.created_at,
                    up.first_name, up.last_name, up.phone, up.bio
             FROM users u
             LEFT JOIN user_profiles up ON u.id = up.user_id
@@ -38,7 +38,7 @@ class UserRepository {
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['id'], $row['email'], $row['password'], $row['created_at'],
+            return new User($row['id'], $row['email'], $row['password'], $row['is_admin'], $row['created_at'],
                             $row['first_name'], $row['last_name'], $row['phone'], $row['bio']);
         }
         return null;
@@ -95,14 +95,14 @@ class UserRepository {
     public function getUsersByProjectId($projectId) {
         $stmt = $this->pdo->prepare("
             SELECT DISTINCT u.id, u.email, u.created_at,
-                   CASE 
+                   CASE
                        WHEN p.user_id = u.id THEN 'owner'
                        ELSE 'member'
                    END as role
             FROM users u
             LEFT JOIN projects p ON p.id = :project_id AND p.user_id = u.id
-            LEFT JOIN project_invitations pi ON pi.invitee_user_id = u.id 
-                AND pi.project_id = :project_id 
+            LEFT JOIN project_invitations pi ON pi.invitee_user_id = u.id
+                AND pi.project_id = :project_id
                 AND pi.status = 'accepted'
             WHERE p.user_id = u.id OR (pi.invitee_user_id = u.id AND pi.status = 'accepted')
             ORDER BY role DESC, u.email ASC
@@ -115,6 +115,23 @@ class UserRepository {
                 'user' => $user,
                 'role' => $row['role']
             ];
+        }
+        return $users;
+    }
+
+    public function getAllUsers() {
+        $stmt = $this->pdo->prepare("
+            SELECT u.id, u.email, u.is_admin, u.created_at,
+                   up.first_name, up.last_name, up.phone, up.bio
+            FROM users u
+            LEFT JOIN user_profiles up ON u.id = up.user_id
+            ORDER BY u.created_at DESC
+        ");
+        $stmt->execute();
+        $users = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = new User($row['id'], $row['email'], null, $row['is_admin'], $row['created_at'],
+                                $row['first_name'], $row['last_name'], $row['phone'], $row['bio']);
         }
         return $users;
     }

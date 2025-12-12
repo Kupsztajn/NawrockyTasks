@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="public/styles/dashboard.css">
+    <script src="public/scripts/main.js" defer></script>
+    <title>Admin - Users</title>
+</head>
+<body>
+    <?php include 'navbar.php'; ?>
+
+    <div class="dashboard-container">
+        <h2>All Users</h2>
+        <?php if (isset($users) && count($users) > 0): ?>
+            <div class="users-list">
+                <?php foreach ($users as $user): ?>
+                    <div class="project-card">
+                        <h3><?php echo htmlspecialchars($user->getEmail()); ?></h3>
+                        <p><strong>ID:</strong> <?php echo htmlspecialchars($user->getId()); ?></p>
+                        <p><strong>Admin:</strong> <?php echo $user->getIsAdmin() ? 'Yes' : 'No'; ?></p>
+                        <p><strong>Created:</strong> <?php echo htmlspecialchars($user->getCreatedAt()); ?></p>
+                        <?php if ($user->getFirstName() || $user->getLastName()): ?>
+                            <p><strong>Name:</strong> <?php echo htmlspecialchars($user->getFirstName() . ' ' . $user->getLastName()); ?></p>
+                        <?php endif; ?>
+                        <?php if ($user->getPhone()): ?>
+                            <p><strong>Phone:</strong> <?php echo htmlspecialchars($user->getPhone()); ?></p>
+                        <?php endif; ?>
+                        <?php if ($user->getBio()): ?>
+                            <p><strong>Bio:</strong> <?php echo htmlspecialchars($user->getBio()); ?></p>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="project-card">
+                <p>No users found.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
