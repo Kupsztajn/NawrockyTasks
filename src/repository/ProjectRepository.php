@@ -15,17 +15,18 @@ class ProjectRepository {
         $stmt->execute(['user_id' => $userId]);
         $projects = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $projects[] = new Project($row['id'], $row['user_id'], $row['name'], $row['description'], $row['created_at']);
+            $projects[] = new Project($row['id'], $row['user_id'], $row['name'], $row['description'], $row['image'], $row['created_at']);
         }
         return $projects;
     }
 
     public function save(Project $project) {
-        $stmt = $this->pdo->prepare("INSERT INTO projects (user_id, name, description, created_at) VALUES (:user_id, :name, :description, :created_at)");
+        $stmt = $this->pdo->prepare("INSERT INTO projects (user_id, name, description, image, created_at) VALUES (:user_id, :name, :description, :image, :created_at)");
         $stmt->execute([
             'user_id' => $project->getUserId(),
             'name' => $project->getName(),
             'description' => $project->getDescription(),
+            'image' => $project->getImage(),
             'created_at' => $project->getCreatedAt()
         ]);
         $project->setId($this->pdo->lastInsertId());
@@ -33,10 +34,11 @@ class ProjectRepository {
     }
 
     public function update(Project $project) {
-        $stmt = $this->pdo->prepare("UPDATE projects SET name = :name, description = :description WHERE id = :id");
+        $stmt = $this->pdo->prepare("UPDATE projects SET name = :name, description = :description, image = :image WHERE id = :id");
         $stmt->execute([
             'name' => $project->getName(),
             'description' => $project->getDescription(),
+            'image' => $project->getImage(),
             'id' => $project->getId()
         ]);
     }
@@ -51,7 +53,7 @@ class ProjectRepository {
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new Project($row['id'], $row['user_id'], $row['name'], $row['description'], $row['created_at']);
+            return new Project($row['id'], $row['user_id'], $row['name'], $row['description'], $row['image'], $row['created_at']);
         }
         return null;
     }

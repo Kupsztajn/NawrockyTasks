@@ -14,9 +14,10 @@
     <div class="dashboard-container">
     <h2>Add New Project</h2>
     <div class="dashboard-create-project">
-    <form action="/add-project" method="POST">
+    <form action="/add-project" method="POST" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Project Name" required>
         <textarea name="description" placeholder="Project Description"></textarea>
+        <input type="file" name="image" accept="image/*">
         <button class="main-form" type="submit">Create Project</button>
     </form>
     </div>

@@ -69,9 +69,24 @@ class DashboardController extends AppController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
+            $imagePath = null;
 
             if (!empty($name)) {
-                $project = new Project(null, $_SESSION['user_id'], $name, $description);
+                // Handle file upload
+                if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                    $uploadDir = 'public/uploads/projects/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0755, true);
+                    }
+                    $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
+                    $targetFile = $uploadDir . $fileName;
+
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                        $imagePath = '/' . $targetFile;
+                    }
+                }
+
+                $project = new Project(null, $_SESSION['user_id'], $name, $description, $imagePath);
                 $projectRepository = new ProjectRepository();
                 $projectRepository->save($project);
             }
