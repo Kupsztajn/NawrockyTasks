@@ -15,7 +15,6 @@ class SecurityController extends AppController {
             $user = $userRepository->findByEmail($email);
 
                 if ($user && $user->verifyPassword($password)) {
-                    session_start();
                     $_SESSION['user_id'] = $user->getId();
                     $_SESSION['user_email'] = $user->getEmail();
                     $_SESSION['user_is_admin'] = $user->getIsAdmin();
@@ -67,7 +66,6 @@ class SecurityController extends AppController {
     public function logout()
     {
         // Logic for logging out the user
-        session_start();
         session_destroy();
         header('Location: /login');
         exit();
@@ -75,7 +73,6 @@ class SecurityController extends AppController {
 
     public function account()
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -99,7 +96,6 @@ class SecurityController extends AppController {
 
     public function changePassword()
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();

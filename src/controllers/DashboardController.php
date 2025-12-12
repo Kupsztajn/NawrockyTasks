@@ -10,7 +10,7 @@ class DashboardController extends AppController {
 
     public function dashboard()
     {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -60,7 +60,6 @@ class DashboardController extends AppController {
 
     public function addProject()
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -123,7 +122,6 @@ class DashboardController extends AppController {
 
     public function deleteTask()
     {
-        session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -498,7 +496,7 @@ class DashboardController extends AppController {
     }
 
     public function adminUsers() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -512,6 +510,59 @@ class DashboardController extends AppController {
         $users = $userRepository->getAllUsers();
 
         return $this->render('admin-users', ['users' => $users]);
+    }
+
+    public function toggleAdmin() {
+        //session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if (!isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
+            $this->forbidden();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'] ?? '';
+
+            if (!empty($userId)) {
+                $userRepository = new UserRepository();
+                $user = $userRepository->findById($userId);
+
+                if ($user) {
+                    $newIsAdmin = !$user->getIsAdmin();
+                    $userRepository->updateIsAdmin($userId, $newIsAdmin);
+                }
+            }
+        }
+
+        header('Location: /admin-users');
+        exit();
+    }
+
+    public function deleteUser() {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if (!isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
+            $this->forbidden();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'] ?? '';
+
+            if (!empty($userId)) {
+                $userRepository = new UserRepository();
+                $userRepository->deleteUser($userId);
+            }
+        }
+
+        header('Location: /admin-users');
+        exit();
     }
 
 }

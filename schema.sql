@@ -121,7 +121,7 @@ BEGIN;
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 
 -- Insert a sample user for testing (password: 'password')
-INSERT INTO users (email, password) VALUES ('test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi') ON CONFLICT (email) DO NOTHING;
+INSERT INTO users (email, password, is_admin) VALUES ('test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', true) ON CONFLICT (email) DO NOTHING;
 
 -- Dodanie profilu dla użytkownika (jeden-do-jednego)
 INSERT INTO user_profiles (user_id, first_name, last_name, phone, bio) VALUES

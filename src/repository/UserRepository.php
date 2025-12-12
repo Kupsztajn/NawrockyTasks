@@ -12,7 +12,7 @@ class UserRepository {
 
     public function findByEmail($email) {
         $stmt = $this->pdo->prepare("
-            SELECT u.id, u.email, u.password, u.created_at,
+            SELECT u.id, u.email, u.password, u.is_admin, u.created_at,
                    up.first_name, up.last_name, up.phone, up.bio
             FROM users u
             LEFT JOIN user_profiles up ON u.id = up.user_id
@@ -21,7 +21,7 @@ class UserRepository {
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
-            return new User($row['id'], $row['email'], $row['password'], $row['created_at'],
+            return new User($row['id'], $row['email'], $row['password'], $row['is_admin'], $row['created_at'],
                             $row['first_name'], $row['last_name'], $row['phone'], $row['bio']);
         }
         return null;
@@ -134,5 +134,23 @@ class UserRepository {
                                 $row['first_name'], $row['last_name'], $row['phone'], $row['bio']);
         }
         return $users;
+    }
+
+    public function deleteUser($userId) {
+        // Delete user profile first
+        $stmt = $this->pdo->prepare("DELETE FROM user_profiles WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+
+        // Delete user
+        $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
+        $stmt->execute(['id' => $userId]);
+    }
+
+    public function updateIsAdmin($userId, $isAdmin) {
+        $stmt = $this->pdo->prepare("UPDATE users SET is_admin = :is_admin WHERE id = :id");
+        $stmt->execute([
+            'is_admin' => $isAdmin ? 'true' : 'false',
+            'id' => $userId
+        ]);
     }
 }

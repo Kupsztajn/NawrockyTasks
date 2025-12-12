@@ -5,7 +5,6 @@
         <span class="hamburger-line"></span>
     </button>
     <div class="nav-left">
-        <a href="/" class="nav-btn">🏠 Home</a>
         <a href="/dashboard" class="nav-btn">📊 Dashboard</a>
         <?php
         if (session_status() === PHP_SESSION_NONE) {

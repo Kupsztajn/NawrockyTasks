@@ -30,6 +30,18 @@
                         <?php if ($user->getBio()): ?>
                             <p><strong>Bio:</strong> <?php echo htmlspecialchars($user->getBio()); ?></p>
                         <?php endif; ?>
+                        <div class="user-actions">
+                            <form action="/toggle-admin" method="POST" style="display: inline;">
+                                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user->getId()); ?>">
+                                <button type="submit" class="btn <?php echo $user->getIsAdmin() ? 'btn-revoke' : 'btn-grant'; ?>">
+                                    <?php echo $user->getIsAdmin() ? 'Revoke Admin' : 'Grant Admin'; ?>
+                                </button>
+                            </form>
+                            <form action="/delete-user" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($user->getId()); ?>">
+                                <button type="submit" class="btn btn-delete">Delete User</button>
+                            </form>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>

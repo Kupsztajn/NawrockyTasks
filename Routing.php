@@ -23,10 +23,25 @@ class Routing {
         'remove-user' => 'DashboardController@removeUserFromProject',
         'leave-project' => 'DashboardController@leaveProject',
         'delete-project' => 'DashboardController@deleteProject',
-        'admin-users' => 'DashboardController@adminUsers'
+        'admin-users' => 'DashboardController@adminUsers',
+        'delete-user' => 'DashboardController@deleteUser',
+        'toggle-admin' => 'DashboardController@toggleAdmin'
     ];
 
     public static function run($path) {
+        session_start();
+
+        // Admin-only routes
+        $adminRoutes = ['admin-users', 'delete-user', 'toggle-admin'];
+
+        if (in_array($path, $adminRoutes)) {
+            if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
+                http_response_code(403);
+                include 'public/views/403.html';
+                exit();
+            }
+        }
+
         if (array_key_exists($path, self::$routes)) {
             // Pobierz wpis z tablicy routes
             $route = self::$routes[$path];
