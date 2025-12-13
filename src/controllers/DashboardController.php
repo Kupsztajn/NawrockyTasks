@@ -10,7 +10,7 @@ class DashboardController extends AppController {
 
     public function dashboard()
     {
-        //session_start();
+        ////session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -97,7 +97,7 @@ class DashboardController extends AppController {
 
     public function addTask()
     {
-        session_start();
+        ////session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -148,7 +148,7 @@ class DashboardController extends AppController {
 
     public function updateTaskStatus()
     {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -178,7 +178,7 @@ class DashboardController extends AppController {
 
     public function project()
     {
-        session_start();
+        ////session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -214,7 +214,7 @@ class DashboardController extends AppController {
 
     public function searchUsers()
     {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             echo json_encode(['error' => 'Unauthorized']);
@@ -246,7 +246,7 @@ class DashboardController extends AppController {
 
     public function inviteUser()
     {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             header('Content-Type: application/json');
@@ -308,7 +308,7 @@ class DashboardController extends AppController {
     }
     
     public function acceptInvitation() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -327,7 +327,7 @@ class DashboardController extends AppController {
     }
 
     public function declineInvitation() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -347,7 +347,7 @@ class DashboardController extends AppController {
 
     public function projectMembers()
     {
-        session_start();
+        ////session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -386,7 +386,7 @@ class DashboardController extends AppController {
     }
 
     public function removeUserFromProject() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             header('Content-Type: application/json');
@@ -447,7 +447,7 @@ class DashboardController extends AppController {
     }
 
     public function leaveProject() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -471,7 +471,7 @@ class DashboardController extends AppController {
     }
 
     public function deleteProject() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -496,7 +496,7 @@ class DashboardController extends AppController {
     }
 
     public function adminUsers() {
-        //session_start();
+        ////session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -513,7 +513,7 @@ class DashboardController extends AppController {
     }
 
     public function toggleAdmin() {
-        //session_start();
+        ////session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -542,7 +542,7 @@ class DashboardController extends AppController {
     }
 
     public function deleteUser() {
-        session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
