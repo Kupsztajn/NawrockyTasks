@@ -1,166 +1,181 @@
 # Nawrocky Tasks
 
-A PHP MVC web application for task management with user authentication, project organization, and collaborative features. Built with Docker, PostgreSQL, and modern PHP practices.
+Aplikacja webowa do zarządzania zadaniami z uwierzytelnianiem użytkowników, organizacją projektów oraz funkcjami współpracy. Zbudowana z użyciem Dockera, PostgreSQL oraz nowoczesnych praktyk PHP.
 
-## Architecture
+## Architektura
 
 ```
 ┌─────────────────┐
-│   Presentation  │  ← HTML/CSS/JS Views
-├─────────────────┤
-│   Controllers   │  ← Business Logic (Security, Dashboard)
-├─────────────────┤
-│   Repositories  │  ← Data Access Layer
-├─────────────────┤
-│     Models      │  ← Data Objects (User, Project, Task)
-├─────────────────┤
-│   PostgreSQL    │  ← Database Layer
+│   Prezentacja   │  ← Widoki HTML / CSS / JS
+└────────▲────────┘
+         │
+         ▼
+┌─────────────────┐
+│   Kontrolery    │  ← Logika biznesowa (bezpieczeństwo, dashboard)
+└────────▲────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Repozytoria    │  ← Warstwa dostępu do danych
+└────────▲────────┘
+         │
+         ▼
+┌─────────────────┐
+│     Modele      │  ← Obiekty danych (User, Project, Task)
+└────────▲────────┘
+         │
+         ▼
+┌─────────────────┐
+│   PostgreSQL    │  ← Warstwa bazy danych
 └─────────────────┘
 ```
 
-### Components:
-- **Frontend**: HTML templates with CSS styling and JavaScript
-- **Backend**: PHP controllers handling HTTP requests and responses
-- **Data Layer**: Repository pattern for database operations
-- **Database**: PostgreSQL with tables for users, projects, tasks, and invitations
-- **Infrastructure**: Docker containers (Nginx, PHP-FPM, PostgreSQL)
+### Komponenty:
+- **Frontend**: HTML, CSS, JavaScript  
+- **Backend**: Kontrolery PHP  
+- **Warstwa danych**: Repozytoria PHP do komunikacji z bazą danych  
+- **Baza danych**: PostgreSQL  
+- **Infrastruktura**: Kontenery Docker (Nginx, PHP, PostgreSQL)
 
-## Installation
+---
 
-### Prerequisites
-- Docker and Docker Compose installed
-- Git
+## Instalacja
 
-### Setup Steps
-1. Clone the repository:
+### Wymagania
+- Zainstalowany Docker oraz Docker Compose  
+- Git  
+
+### Kroki instalacji
+1. Sklonuj repozytorium:
    ```bash
-   git clone <repository-url>
+   git clone <url>
    cd nawrockyTasks
    ```
 
-2. Copy environment configuration:
+2. Skopiuj konfigurację środowiska:
    ```bash
    cp .env.example .env
    ```
 
-3. Configure environment variables in `.env` file (see Environment Variables section)
+3. Skonfiguruj zmienne środowiskowe w pliku `.env`
 
-4. Start the application:
+4. Uruchom aplikację:
    ```bash
-   docker-compose up --build
+   docker compose up --build -d
    ```
 
-5. Access the application at `http://localhost:8080`
+5. Otwórz aplikację pod adresem `http://localhost:8080`
 
-The application will be available with sample data pre-loaded.
+Aplikacja uruchomi się z przykładowymi danymi.
 
-## Environment Variables
+---
 
-Create a `.env` file based on `.env.example`:
+## Zmienne środowiskowe
+
+Utwórz plik `.env` na podstawie `.env.example`:
 
 ```env
-# Database Configuration
 DB_HOST=db
 DB_PORT=5432
 DB_NAME=nawrocky_tasks
 DB_USER=nawrocky
 DB_PASSWORD=nawrocky
 
-# Application Configuration
-APP_ENV=development
 APP_URL=http://localhost:8080
 
-# Session Configuration
-SESSION_LIFETIME=3600
-
-# Admin Credentials (for initial setup)
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=admin
 ```
 
-## Test Scenario
+---
 
-Follow these steps to test the application's core functionality:
+## Scenariusz testowy
 
-### 1. Login
-- Navigate to `http://localhost:8080`
-- Login with admin credentials:
+Poniższe kroki pozwalają przetestować podstawowe funkcjonalności aplikacji.
+
+---
+
+## Scenariusz A: Zwykły użytkownik
+
+### 1. Rejestracja
+- Przejdź do `http://localhost:8080/register`
+- Wyślij formularz rejestracji
+
+### 2. Logowanie
+- Przejdź do `http://localhost:8080`
+- Zaloguj się przy użyciu zarejestrowanego konta
+
+### 3. Kontrola dostępu
+- Spróbuj wejść na `/admin-users`
+- Sprawdź, czy wyświetla się strona **403 Forbidden**
+- Wyloguj się i spróbuj wejść na `/dashboard`
+
+### 4. Operacje CRUD – Projekty
+- Z poziomu dashboardu kliknij **Create Project**
+- Wyślij formularz
+- Sprawdź, czy projekt pojawił się na liście
+- Otwórz szczegóły projektu
+- Usuń projekt
+
+### 5. Operacje CRUD – Zadania
+- W widoku projektu kliknij **Add Task**
+- Wyślij formularz
+- Sprawdź, czy zadanie pojawiło się na liście
+- Zmień status zadania:
+  - pending → completed
+- Usuń zadanie
+
+### 6. Zaproszenia do projektu (wysyłanie)
+- Jako właściciel projektu zaproś innego użytkownika
+- Podaj adres e-mail istniejącego użytkownika
+- Wyślij zaproszenie
+- Wyloguj się
+
+### 7. Zaproszenia do projektu (odbieranie)
+- Zaloguj się jako zaproszony użytkownik
+- Przejdź do sekcji zaproszeń
+- Zaakceptuj lub odrzuć zaproszenie
+
+---
+
+## Scenariusz B: Administrator
+
+### 8. Logowanie administratora
+- Przejdź do `http://localhost:8080`
+- Zaloguj się jako administrator:
   - Email: `admin@example.com`
-  - Password: `admin`
-- Verify dashboard loads with existing projects
+  - Hasło: `admin`
 
-### 2. Role-Based Access
-- As admin user, navigate to `/admin-users`
-- Verify admin panel is accessible
-- Logout and try accessing `/admin-users` as regular user
-- Verify 403 Forbidden error page displays
+### 9. Panel administratora
+- Przejdź do `/admin-users`
 
-### 3. CRUD Operations - Projects
-- From dashboard, click "Create Project"
-- Fill form: Name="Test Project", Description="Testing CRUD"
-- Submit and verify project appears in dashboard
-- Click project name to view details
-- Edit project (if available) or delete project
-- Verify changes reflect immediately
+### 10. Zarządzanie użytkownikami
+- Zmień rolę wybranego użytkownika (admin / user)
+- Zapisz zmiany
+- Wyloguj się
+- Zaloguj się jako zmodyfikowany użytkownik
 
-### 4. CRUD Operations - Tasks
-- In a project view, click "Add Task"
-- Fill form: Title="Test Task", Description="Testing task CRUD"
-- Assign to a user and submit
-- Verify task appears in project
-- Update task status (pending → in_progress → completed)
-- Delete task and verify removal
+### 11. Błędy uwierzytelniania
+- Spróbuj wejść na chronione trasy bez logowania
+- Zaloguj się jako zwykły użytkownik i spróbuj wejść na `/admin-users`
 
-### 5. User Management (Admin Only)
-- Login as admin
-- Go to `/admin-users`
-- View user list
-- Toggle admin status for a user
-- Verify role changes take effect
+---
 
-### 6. Authentication Errors
-- Logout from admin account
-- Try accessing protected routes like `/dashboard` without login
-- Verify redirect to login page (401 equivalent)
-- Try accessing `/admin-users` as regular user
-- Verify 403 Forbidden page
+## Schemat bazy danych
 
-### 7. Views and Triggers
-- Test responsive design by resizing browser window
-- Verify navbar shows correct user info and logout option
-- Test form validations (empty fields, invalid emails)
-- Check error pages (400, 403, 404, 500) by triggering errors
+Aplikacja korzysta z PostgreSQL i zawiera następujące tabele:
+- `users` – konta użytkowników i role  
+- `projects` – projekty wraz z właścicielami  
+- `tasks` – zadania przypisane do projektów  
+- `project_invitations` – system zaproszeń do projektów  
+- `user_profiles` – rozszerzone informacje o użytkownikach  
 
-### 8. Project Invitations
-- As project owner, invite a user to project
-- Login as invited user
-- Accept/decline invitation
-- Verify project membership changes
+---
 
-## Database Schema
+## Wykorzystane technologie
 
-The application uses PostgreSQL with the following tables:
-- `users`: User accounts with roles
-- `projects`: Project definitions with ownership
-- `tasks`: Tasks belonging to projects with assignments
-- `project_invitations`: Invitation system for collaboration
-- `user_profiles`: Extended user information
-
-## API Endpoints
-
-- `GET/POST /login` - Authentication
-- `GET/POST /register` - User registration
-- `POST /logout` - Session termination
-- `GET /dashboard` - Main dashboard
-- `POST /create-project` - Project creation
-- `POST /create-task` - Task creation
-- `POST /update-task-status` - Task status updates
-- `GET /admin-users` - Admin user management (admin only)
-
-## Technologies Used
-
-- **Backend**: PHP 8.3, MVC Architecture
-- **Database**: PostgreSQL 15
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Infrastructure**: Docker, Docker Compose, Nginx
-- **Security**: Password hashing, session management, role-based access
+- **Backend**: PHP  
+- **Baza danych**: PostgreSQL  
+- **Frontend**: HTML, CSS, JavaScript  
+- **Infrastruktura**: Docker, Nginx  
+- **Bezpieczeństwo**: haszowanie haseł, sesje, kontrola dostępu oparta na rolach
