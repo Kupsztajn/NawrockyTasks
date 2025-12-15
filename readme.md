@@ -179,3 +179,12 @@ Aplikacja korzysta z PostgreSQL i zawiera następujące tabele:
 - **Frontend**: HTML, CSS, JavaScript  
 - **Infrastruktura**: Docker, Nginx  
 - **Bezpieczeństwo**: haszowanie haseł, sesje, kontrola dostępu oparta na rolach
+
+## Zrzuty
+
+![alt text](Untitled.png)
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
