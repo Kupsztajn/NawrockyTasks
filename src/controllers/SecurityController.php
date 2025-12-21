@@ -36,12 +36,10 @@ class SecurityController extends AppController {
 
             $userRepository = new UserRepository();
 
-            // Check if email already exists
             if ($userRepository->findByEmail($email)) {
                 return $this->render('register', ['error' => 'Email already registered']);
             }
 
-            // Validate password
             if (strlen($password) < 6) {
                 return $this->render('register', ['error' => 'Password must be at least 6 characters long']);
             }
@@ -50,13 +48,11 @@ class SecurityController extends AppController {
                 return $this->render('register', ['error' => 'Passwords do not match']);
             }
 
-            // Create new user
             $user = new User();
             $user->setEmail($email);
             $user->setPassword($password);
             $userRepository->save($user);
 
-            // Redirect to login
             header('Location: /login');
             exit();
         }
@@ -65,7 +61,6 @@ class SecurityController extends AppController {
 
     public function logout()
     {
-        // Logic for logging out the user
         session_destroy();
         header('Location: /login');
         exit();
@@ -87,7 +82,7 @@ class SecurityController extends AppController {
             $bio = $_POST['bio'] ?? '';
 
             $userRepository->updateProfile($_SESSION['user_id'], $firstName, $lastName, $phone, $bio);
-            $user = $userRepository->findById($_SESSION['user_id']); // Refresh user data
+            $user = $userRepository->findById($_SESSION['user_id']);
             return $this->render('account', ['user' => $user, 'profile_success' => 'Profile updated successfully']);
         }
 

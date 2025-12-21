@@ -17,14 +17,12 @@
         <p><?php echo htmlspecialchars($project->getDescription()); ?></p>
         <small>Created: <?php echo htmlspecialchars($project->getCreatedAt()); ?></small>
 
-        <!-- Project Actions -->
         <div class="project-actions">
             <a href="/project?id=<?php echo htmlspecialchars($project->getId()); ?>" class="nav-btn back-btn">
                 ← Back to Project
             </a>
         </div>
 
-        <!-- Project Users Section -->
         <div class="project-users">
             <h2>Project Members</h2>
             <?php if (isset($projectUsers) && count($projectUsers) > 0): ?>

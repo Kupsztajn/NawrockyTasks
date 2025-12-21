@@ -96,7 +96,6 @@ class InvitationController extends AppController {
         $invitation = new ProjectInvitation(null, $projectId, $_SESSION['user_id'], $inviteeId, 'pending', null);
         $invitationRepository->save($invitation);
 
-        // tutaj ustaw nagłówek przed jakimkolwiek echo
         header('Content-Type: application/json');
         echo json_encode(['success' => true]);
         exit();
@@ -166,7 +165,6 @@ class InvitationController extends AppController {
             exit();
         }
 
-        // Sprawdź czy użytkownik jest właścicielem projektu
         $projectRepository = new ProjectRepository();
         $project = $projectRepository->getProjectById($projectId);
 
@@ -177,7 +175,6 @@ class InvitationController extends AppController {
             exit();
         }
 
-        // Nie można usunąć właściciela projektu
         if ($userId == $project->getUserId()) {
             http_response_code(400);
             header('Content-Type: application/json');
@@ -185,7 +182,6 @@ class InvitationController extends AppController {
             exit();
         }
 
-        // Usuń zaproszenie (co skutkuje usunięciem użytkownika z projektu)
         $invitationRepository = new ProjectInvitationRepository();
         $invitation = $invitationRepository->findByProjectAndInvitee($projectId, $userId);
 

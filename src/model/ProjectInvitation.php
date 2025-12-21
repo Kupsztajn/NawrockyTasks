@@ -17,7 +17,6 @@ class ProjectInvitation {
         $this->createdAt = $createdAt;
     }
 
-    // Getters
     public function getId() { return $this->id; }
     public function getProjectId() { return $this->projectId; }
     public function getInviterUserId() { return $this->inviterUserId; }
@@ -25,7 +24,6 @@ class ProjectInvitation {
     public function getStatus() { return $this->status; }
     public function getCreatedAt() { return $this->createdAt; }
 
-    // Setters
     public function setId($id) { $this->id = $id; }
     public function setProjectId($projectId) { $this->projectId = $projectId; }
     public function setInviterUserId($inviterUserId) { $this->inviterUserId = $inviterUserId; }

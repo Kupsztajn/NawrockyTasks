@@ -21,7 +21,6 @@ class ProjectController extends AppController {
             $imagePath = null;
 
             if (!empty($name)) {
-                // Handle file upload
                 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                     $uploadDir = 'public/uploads/projects/';
                     if (!is_dir($uploadDir)) {
@@ -47,7 +46,7 @@ class ProjectController extends AppController {
 
     public function project()
     {
-        ////session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -67,7 +66,6 @@ class ProjectController extends AppController {
         $projectRepository = new ProjectRepository();
         $project = $projectRepository->getProjectById($projectId);
 
-        // Sprawdzenie uprawnień
         $invitationRepository = new ProjectInvitationRepository();
         $acceptedInvitation = $invitationRepository->findByProjectAndInvitee($projectId, $_SESSION['user_id']);
 
@@ -83,7 +81,7 @@ class ProjectController extends AppController {
 
     public function projectMembers()
     {
-        ////session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -98,7 +96,6 @@ class ProjectController extends AppController {
         $projectRepository = new ProjectRepository();
         $project = $projectRepository->getProjectById($projectId);
 
-        // Sprawdzenie uprawnień
         $invitationRepository = new ProjectInvitationRepository();
         $acceptedInvitation = $invitationRepository->findByProjectAndInvitee($projectId, $_SESSION['user_id']);
 
@@ -107,11 +104,9 @@ class ProjectController extends AppController {
             exit();
         }
 
-        // Pobierz użytkowników projektu
         $userRepository = new UserRepository();
         $projectUsers = $userRepository->getUsersByProjectId($projectId);
 
-        // Sprawdź czy obecny użytkownik jest właścicielem
         $isOwner = ($project->getUserId() == $_SESSION['user_id']);
 
         return $this->render('project-members', [
@@ -135,7 +130,6 @@ class ProjectController extends AppController {
                 $projectRepository = new ProjectRepository();
                 $project = $projectRepository->getProjectById($projectId);
 
-                // Check if the user owns the project
                 if ($project && $project->getUserId() == $_SESSION['user_id']) {
                     $projectRepository->delete($projectId);
                 }

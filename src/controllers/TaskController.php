@@ -5,10 +5,10 @@ require_once 'src/repository/TaskRepository.php';
 require_once 'src/repository/ProjectRepository.php';
 
 class TaskController extends AppController {
-    
+
     public function addTask()
     {
-        ////session_start();
+        //session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -26,7 +26,6 @@ class TaskController extends AppController {
             }
         }
 
-        // Redirect back to the project page instead of dashboard
         header('Location: /project?id=' . $project_id);
         exit();
     }
@@ -73,7 +72,6 @@ class TaskController extends AppController {
                 $taskRepository = new TaskRepository();
                 $task = $taskRepository->getTaskById($id);
                 if ($task) {
-                    // Toggle status
                     $newStatus = $task->getStatus() === 'done' ? 'pending' : 'done';
                     $task->setStatus($newStatus);
                     $taskRepository->update($task);

@@ -22,7 +22,6 @@
         <p><?php echo htmlspecialchars($project->getDescription()); ?></p>
         <small>Created: <?php echo htmlspecialchars($project->getCreatedAt()); ?></small>
 
-        <!-- Project Members Button -->
         <div class="project-actions">
             <a href="/project-members?id=<?php echo htmlspecialchars($project->getId()); ?>" class="nav-btn members-btn">
                 View Project Members
