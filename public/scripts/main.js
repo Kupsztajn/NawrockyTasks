@@ -4,7 +4,6 @@ header.addEventListener('click', () => {
     header.style.color = 'green';
 });
 
-// Funkcja inviteUser globalnie w main.js
 function inviteUser(projectId, userId, button) {
     button.disabled = true;
     button.textContent = 'Inviting...';

@@ -1,4 +1,4 @@
-/* 🌐 Ogólne resetowanie stylów */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +6,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* 🧭 Styl strony */
 body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #333;
@@ -17,7 +16,7 @@ body {
   padding: 2rem;
 }
 
-/* 📝 Formularze */
+
 form {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
@@ -35,7 +34,6 @@ form:hover {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* 🏷️ Nagłówek */
 h1 {
   color: #fff;
   font-size: 2.5rem;
@@ -44,7 +42,6 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* 🧩 Pola formularza */
 input {
   width: 100%;
   padding: 12px 16px;
@@ -61,7 +58,6 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* 🟢 Przycisk */
 button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -81,13 +77,11 @@ button:hover {
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
-/* Error message */
 p[style*="color: red"] {
   color: red;
   margin-bottom: 1rem;
 }
 
-/* Hamburger Menu */
 .hamburger-menu {
     display: none;
     flex-direction: column;
@@ -122,14 +116,12 @@ p[style*="color: red"] {
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-/* Lewa + prawa strona */
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-/* Przycisk w navbarze */
 .nav-btn {
     text-decoration: none;
     font-weight: 500;
@@ -143,30 +135,27 @@ p[style*="color: red"] {
     display: flex;
     align-items: center;
     margin: 0;
-    padding-top: 10px; /* tylko pod navbar */
+    padding-top: 10px;
 }
 
-/* Hover */
 .nav-btn:hover {
     background: #e5e7eb;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Logout w czerwonym stylu */
 .nav-btn.logout {
     background: #ffe5e5;
     border-color: #ffb1b1;
     color: #d62828;
     margin: 0;
-    padding-top: 10px; /* tylko pod navbar */
+    padding-top: 10px;
 }
 
 .nav-btn.logout:hover {
     background: #ffcccc;
 }
 
-/* 📱 Responsywność */
 @media (max-width: 768px) {
   body {
     padding: 1.5rem;

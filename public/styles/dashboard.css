@@ -1,16 +1,15 @@
-/* 🌈 Ogólny wygląd */
 body {
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
   color: #333;
   margin: 0;
   padding: 2rem;
-  padding-top: 100px; /* żeby treść nie wchodziła pod navbar */
+  padding-top: 100px;
 
 }
 
 .dashboard-container h2 {
-    margin-bottom: 1rem; /* odstęp pod każdym h2 w dashboardzie */
+    margin-bottom: 1rem;
     margin-top: 2rem;
 }
 
@@ -18,7 +17,6 @@ h1, h2, h3, h4 {
   font-weight: 600;
 }
 
-/* 🔗 Linki */
 a {
   text-decoration: none;
   color: #667eea;
@@ -30,8 +28,6 @@ a:hover {
   color: #5a67d8;
 }
 
-/* 📁 Projekty */
-/* 📁 Projekty */
 .dashboard-create-project {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
@@ -89,7 +85,6 @@ a:hover {
   font-size: 0.9rem;
 }
 
-/* 📋 Zadania */
 .task-list {
   margin-top: 2rem;
 }
@@ -100,7 +95,7 @@ a:hover {
   font-size: 1.2rem;
 }
 
-/* 📝 Pojedyncza karta zadania */
+
 .task-item {
   background: #f8f9fa;
   border-radius: 12px;
@@ -133,7 +128,6 @@ a:hover {
   font-size: 0.85rem;
 }
 
-/* 🗑️ Przycisk usunięcia zadania */
 .task-item form {
   display: inline;
   margin-left: 1rem;
@@ -156,7 +150,6 @@ a:hover {
   transform: scale(1.05);
 }
 
-/* ➕ Formularze dodawania */
 form input, form textarea {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -189,7 +182,7 @@ form button[type="submit"]:hover {
   transform: scale(1.05);
 }
 
-/* 📱 Responsywność */
+
 @media (max-width: 768px) {
   body {
     padding: 1rem;
@@ -204,15 +197,13 @@ form button[type="submit"]:hover {
   }
 }
 
-/* 📌 Centrum treści */
 .dashboard-container {
-  max-width: 900px;      /* szerokość kontenera */
-  margin: 0 auto;        /* centrowanie */
+  max-width: 900px;    
+  margin: 0 auto;       
   margin-top: 2rem;
-  padding: 0 1rem;       /* lekkie boczne odstępy na mobile */
+  padding: 0 1rem;       
 }
 
-/* Żeby nagłówek też był ładnie wyśrodkowany */
 h1 {
   text-align: center;
   margin-bottom: 1rem;
@@ -225,7 +216,6 @@ a[href="/logout"] {
   font-size: 1.1rem;
 }
 
-/* 🌐 NAVBAR */
 .navbar {
     position: fixed;
     top: 0;
@@ -243,21 +233,20 @@ a[href="/logout"] {
 
     border-bottom: 2px solid #e2e8f0;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    z-index: 1000; /* żeby był nad wszystkim */
+    z-index: 1000; 
 }
 
 .hamburger-menu {
     display: none;
   }
 
-/* Lewa + prawa strona */
 .nav-left, .nav-right {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-/* Przycisk w navbarze */
+
 .nav-btn {
     text-decoration: none;
     font-weight: 500;
@@ -271,30 +260,27 @@ a[href="/logout"] {
     display: flex;
     align-items: center;
     margin: 0;
-    padding-top: 10px; /* tylko pod navbar */
+    padding-top: 10px;
 }
 
-/* Hover */
 .nav-btn:hover {
     background: #e5e7eb;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Logout w czerwonym stylu */
 .nav-btn.logout {
     background: #ffe5e5;
     border-color: #ffb1b1;
     color: #d62828;
     margin: 0;
-    padding-top: 10px; /* tylko pod navbar */
+    padding-top: 10px;
 }
 
 .nav-btn.logout:hover {
     background: #ffcccc;
 }
 
-/* 📱 Mobile */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -326,7 +312,6 @@ a[href="/logout"] {
     }
 }
 
-/* 👥 Project Users Section */
 .project-users {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
@@ -414,7 +399,7 @@ a[href="/logout"] {
     box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
 }
 
-/* 📱 Mobile responsiveness for users */
+
 @media (max-width: 768px) {
     .project-users {
         padding: 2.5rem;
@@ -457,7 +442,6 @@ a[href="/logout"] {
     }
 }
 
-/* Project Actions */
 .project-actions {
     margin: 1.5rem 0;
     display: flex;
