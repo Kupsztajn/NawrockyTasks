@@ -1,6 +1,11 @@
 <?php
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
+require_once 'src/controllers/ProjectController.php';
+require_once 'src/controllers/TaskController.php';
+require_once 'src/controllers/InvitationController.php';
+require_once 'src/controllers/AdminController.php';
+
 class Routing {
 
     public static $routes = [
@@ -10,22 +15,22 @@ class Routing {
         'account' => 'SecurityController@account',
         'change-password' => 'SecurityController@changePassword',
         'dashboard' => 'DashboardController@dashboard',
-        'project' => 'DashboardController@project',
-        'project-members' => 'DashboardController@projectMembers',
-        'add-project' => 'DashboardController@addProject',
-        'add-task' => 'DashboardController@addTask',
-        'delete-task' => 'DashboardController@deleteTask',
-        'update-task-status' => 'DashboardController@updateTaskStatus',
-        'search-users' => 'DashboardController@searchUsers',
-        'invite-user' => 'DashboardController@inviteUser',
-        'accept-invitation' => 'DashboardController@acceptInvitation',
-        'decline-invitation' => 'DashboardController@declineInvitation',
-        'remove-user' => 'DashboardController@removeUserFromProject',
-        'leave-project' => 'DashboardController@leaveProject',
-        'delete-project' => 'DashboardController@deleteProject',
-        'admin-users' => 'DashboardController@adminUsers',
-        'delete-user' => 'DashboardController@deleteUser',
-        'toggle-admin' => 'DashboardController@toggleAdmin'
+        'project' => 'ProjectController@project',
+        'project-members' => 'ProjectController@projectMembers',
+        'add-project' => 'ProjectController@addProject',
+        'add-task' => 'TaskController@addTask',
+        'delete-task' => 'TaskController@deleteTask',
+        'update-task-status' => 'TaskController@updateTaskStatus',
+        'search-users' => 'InvitationController@searchUsers',
+        'invite-user' => 'InvitationController@inviteUser',
+        'accept-invitation' => 'InvitationController@acceptInvitation',
+        'decline-invitation' => 'InvitationController@declineInvitation',
+        'remove-user' => 'InvitationController@removeUserFromProject',
+        'leave-project' => 'InvitationController@leaveProject',
+        'delete-project' => 'ProjectController@deleteProject',
+        'admin-users' => 'AdminController@adminUsers',
+        'delete-user' => 'AdminController@deleteUser',
+        'toggle-admin' => 'AdminController@toggleAdmin'
     ];
 
     public static function run($path) {
