@@ -1,5 +1,7 @@
 <?php
 
+require_once 'src/repository/UserRepository.php';
+
 class AppController {
 
     protected function render(string $template = null, array $variables = [])
@@ -34,6 +36,22 @@ class AppController {
         http_response_code(400);
         include 'public/views/400.html';
         exit();
+    }
+
+    protected function requireAdmin()
+    {
+        //session_start();
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        $userRepository = new UserRepository();
+        $user = $userRepository->findById($_SESSION['user_id']);
+
+        if (!$user || !$user->getIsAdmin()) {
+            $this->forbidden();
+        }
     }
 
 }

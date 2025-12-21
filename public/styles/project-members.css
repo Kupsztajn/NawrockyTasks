@@ -215,6 +215,7 @@ h1 {
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+    flex: 0 1 auto;
 }
 
 .user-info strong {
@@ -252,6 +253,8 @@ h1 {
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
+    margin-left: auto;
+    width: auto;
 }
 
 .remove-user-btn:hover {

@@ -6,15 +6,7 @@ require_once 'src/repository/UserRepository.php';
 class AdminController extends AppController {
 
     public function adminUsers() {
-        ////session_start();
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: /login');
-            exit();
-        }
-
-        if (!isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
-            $this->forbidden();
-        }
+        $this->requireAdmin();
 
         $userRepository = new UserRepository();
         $users = $userRepository->getAllUsers();
@@ -23,15 +15,7 @@ class AdminController extends AppController {
     }
 
     public function toggleAdmin() {
-        ////session_start();
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: /login');
-            exit();
-        }
-
-        if (!isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
-            $this->forbidden();
-        }
+        $this->requireAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'] ?? '';
@@ -52,15 +36,7 @@ class AdminController extends AppController {
     }
 
     public function deleteUser() {
-        //session_start();
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: /login');
-            exit();
-        }
-
-        if (!isset($_SESSION['user_is_admin']) || !$_SESSION['user_is_admin']) {
-            $this->forbidden();
-        }
+        $this->requireAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'] ?? '';
