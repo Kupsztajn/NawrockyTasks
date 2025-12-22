@@ -95,7 +95,7 @@ DECLARE
     completed_tasks INTEGER;
 BEGIN
     SELECT COUNT(*) INTO total_tasks FROM tasks WHERE project_id = project_id_param;
-    SELECT COUNT(*) INTO completed_tasks FROM tasks WHERE project_id = project_id_param AND status = 'completed';
+    SELECT COUNT(*) INTO completed_tasks FROM tasks WHERE project_id = project_id_param AND status = 'done';
 
     IF total_tasks = 0 THEN
         RETURN 0.00;

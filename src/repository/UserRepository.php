@@ -137,11 +137,9 @@ class UserRepository {
     }
 
     public function deleteUser($userId) {
-        // Delete user profile first
         $stmt = $this->pdo->prepare("DELETE FROM user_profiles WHERE user_id = :user_id");
         $stmt->execute(['user_id' => $userId]);
 
-        // Delete user
         $stmt = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
         $stmt->execute(['id' => $userId]);
     }
