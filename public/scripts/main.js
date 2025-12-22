@@ -142,4 +142,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Toggle edit project form
+    const editBtn = document.getElementById('editProjectBtn');
+    const editForm = document.getElementById('editProjectForm');
+    const cancelBtn = document.getElementById('cancelEditBtn');
+
+    if (editBtn && editForm && cancelBtn) {
+        editBtn.addEventListener('click', function() {
+            editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            editForm.style.display = 'none';
+        });
+    }
+
 });

@@ -271,6 +271,27 @@ h1.common {
   background: #ffcccc;
 }
 
+.nav-btn.edit-btn {
+  background: #f3f4f6;
+  color: #333;
+  border: 1px solid #2b2c2ec0;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  line-height: 1;
+  display: inline-block;
+  margin: 0;
+  padding-top: 10px;
+}
+
+.nav-btn.edit-btn:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
 form input, form textarea {
   width: 100%;
   padding: 0.75rem 1rem;

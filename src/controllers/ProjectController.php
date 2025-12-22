@@ -116,6 +116,53 @@ class ProjectController extends AppController {
         ]);
     }
 
+    public function updateProject() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $projectId = $_POST['project_id'] ?? '';
+            $name = $_POST['name'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $imagePath = null;
+
+            if (!empty($projectId) && !empty($name)) {
+                $projectRepository = new ProjectRepository();
+                $project = $projectRepository->getProjectById($projectId);
+
+                if ($project && $project->getUserId() == $_SESSION['user_id']) {
+                    // Handle image upload if provided
+                    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                        $uploadDir = 'public/uploads/projects/';
+                        if (!is_dir($uploadDir)) {
+                            mkdir($uploadDir, 0755, true);
+                        }
+                        $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
+                        $targetFile = $uploadDir . $fileName;
+
+                        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                            $imagePath = '/' . $targetFile;
+                        }
+                    } else {
+                        // Keep existing image if no new one uploaded
+                        $imagePath = $project->getImage();
+                    }
+
+                    $project->setName($name);
+                    $project->setDescription($description);
+                    $project->setImage($imagePath);
+
+                    $projectRepository->update($project);
+                }
+            }
+        }
+
+        header('Location: /project?id=' . $projectId);
+        exit();
+    }
+
     public function deleteProject() {
         //session_start();
         if (!isset($_SESSION['user_id'])) {

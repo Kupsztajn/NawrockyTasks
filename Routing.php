@@ -28,6 +28,7 @@ class Routing {
         'remove-user' => 'InvitationController@removeUserFromProject',
         'leave-project' => 'InvitationController@leaveProject',
         'delete-project' => 'ProjectController@deleteProject',
+        'update-project' => 'ProjectController@updateProject',
         'admin-users' => 'AdminController@adminUsers',
         'delete-user' => 'AdminController@deleteUser',
         'toggle-admin' => 'AdminController@toggleAdmin'

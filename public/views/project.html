@@ -25,6 +25,31 @@
             <a href="/project-members?id=<?php echo htmlspecialchars($project->getId()); ?>" class="nav-btn members-btn">
                 View Project Members
             </a>
+            <button type="button" id="editProjectBtn" class="nav-btn edit-btn">Edit Project</button>
+        </div>
+
+        <div id="editProjectForm" style="display: none;">
+            <h2>Edit Project</h2>
+            <form action="/update-project" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($project->getId()); ?>">
+                <div>
+                    <label for="editName">Project Name:</label>
+                    <input type="text" id="editName" name="name" value="<?php echo htmlspecialchars($project->getName()); ?>" required>
+                </div>
+                <div>
+                    <label for="editDescription">Description:</label>
+                    <textarea id="editDescription" name="description"><?php echo htmlspecialchars($project->getDescription()); ?></textarea>
+                </div>
+                <div>
+                    <label for="editImage">Project Image:</label>
+                    <input type="file" id="editImage" name="image" accept="image/*">
+                    <?php if ($project->getImage()): ?>
+                        <small>Leave empty to keep current image</small>
+                    <?php endif; ?>
+                </div>
+                <button type="submit">Update Project</button>
+                <button type="button" id="cancelEditBtn">Cancel</button>
+            </form>
         </div>
 
         <h2>Add Task to this Project</h2>
