@@ -16,7 +16,6 @@
     <div class="dashboard-container">
         
         <?php if ($project->getImage()): ?>
-        <?php var_dump($project->getImage()); ?>
             <img src="<?php echo htmlspecialchars($project->getImage()); ?>" alt="Project Image" style="max-width: 300px; max-height: 200px;">
         <?php endif; ?>
         <p><?php echo htmlspecialchars($project->getDescription()); ?></p>
