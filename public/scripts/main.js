@@ -40,12 +40,10 @@ function inviteUser(projectId, userId, button) {
     });
 }
 
-// Animacje dla kart projektów
 document.addEventListener('DOMContentLoaded', () => {
     const projectCards = document.querySelectorAll('.project-card');
     const taskItems = document.querySelectorAll('.task-item');
 
-    // Animacja pojawiania się kart projektów
     projectCards.forEach((card, index) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 100);
     });
 
-    // Animacja pojawiania się zadań
     taskItems.forEach((item, index) => {
         item.style.opacity = '0';
         item.style.transform = 'translateX(-20px)';
@@ -67,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, index * 50);
     });
 
-    // Efekt hover dla przycisków
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
         button.addEventListener('mouseenter', () => {
@@ -78,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Searchbars — many per project
     document.querySelectorAll('.user-search').forEach(input => {
         let timeout;
         input.addEventListener('input', function() {
@@ -116,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         
                         
-                        // Attach event listeners to new buttons
                         results.querySelectorAll('.invite-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
                                 inviteUser(
@@ -131,18 +125,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Toggle invite panels
     document.querySelectorAll('.open-invite').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.dataset.projectId;
             const panel = document.getElementById(`invite-panel-${id}`);
-             if (!panel) return; // <- ważne!
+             if (!panel) return;
 
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         });
     });
 
-    // Toggle edit project form
     const editBtn = document.getElementById('editProjectBtn');
     const editForm = document.getElementById('editProjectForm');
     const cancelBtn = document.getElementById('cancelEditBtn');
